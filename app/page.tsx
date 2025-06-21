@@ -1,9 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function Home() {
+  const [isGameOpen, setIsGameOpen] = useState(false);
+  
   const features = [
     { emoji: "📊", text: "Daily Reel Counter" },
     { emoji: "🏆", text: "Leaderboard of Shame" },
@@ -40,6 +42,13 @@ export default function Home() {
             </Link>
           </div>
           <div className="flex items-center gap-4">
+            {/* Subway Surfers Toggle Button */}
+            <button
+              onClick={() => setIsGameOpen(!isGameOpen)}
+              className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 py-2 rounded-full font-bold shadow-lg hover:from-purple-600 hover:to-pink-600 transition-all text-sm border-2 border-transparent hover:border-purple-400 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2"
+            >
+              🚇 {isGameOpen ? 'Close' : 'Weak attention span?'}
+            </button>
             <Link
               href="/protected"
               className="bg-gradient-to-r from-[#36D399] to-[#23b37a] text-[#181C23] px-6 py-2 rounded-full font-bold shadow-lg hover:from-[#23b37a] hover:to-[#36D399] transition-all text-base border-2 border-transparent hover:border-[#36D399] focus:outline-none focus:ring-2 focus:ring-[#36D399] focus:ring-offset-2"
@@ -49,6 +58,35 @@ export default function Home() {
           </div>
         </div>
       </nav>
+
+      {/* Subway Surfers Video Sidebar */}
+      {isGameOpen && (
+        <div className="fixed left-0 top-0 h-full w-80 bg-[#181C23] border-r-2 border-[#36D399] z-40 shadow-2xl">
+          <div className="p-4 border-b border-[#232733] flex justify-between items-center">
+            <h3 className="text-lg font-bold text-[#36D399] flex items-center gap-2">
+              🚇 Weak attention span?
+            </h3>
+            <button
+              onClick={() => setIsGameOpen(false)}
+              className="text-gray-400 hover:text-white text-xl font-bold"
+            >
+              ✕
+            </button>
+          </div>
+          <div className="h-[calc(100vh-4rem)] overflow-hidden">
+            <iframe
+              src="https://www.youtube.com/embed/zZ7AimPACzc?autoplay=1&loop=1&mute=1&controls=0&showinfo=0&rel=0&modestbranding=1&playlist=zZ7AimPACzc"
+              className="w-full h-full border-0"
+              allow="autoplay; encrypted-media"
+              allowFullScreen
+              title="Subway Surfers Gameplay"
+            />
+          </div>
+        </div>
+      )}
+      
+      {/* Content wrapper with left margin when sidebar is open */}
+      <div className={`transition-all duration-300 ${isGameOpen ? 'ml-80' : 'ml-0'}`}>
 
       <main className="font-sans">
         {/* HERO */}
@@ -67,6 +105,8 @@ export default function Home() {
             <div className="absolute animate-bounce left-10 top-1/2 text-[2.5rem] opacity-20 select-none">😅</div>
             <div className="absolute animate-pulse right-10 top-1/3 text-[2.5rem] opacity-25 select-none">👑</div>
             <div className="absolute animate-bounce right-1/5 top-1/5 text-[2.5rem] opacity-20 select-none">🙈</div>
+            {/* Add subway surfer emoji */}
+            <div className="absolute animate-bounce left-1/5 bottom-1/3 text-[3rem] opacity-25 select-none">🚇</div>
           </div>
           <div className="flex flex-col items-center w-full relative z-10">
             <div className="mx-auto mb-4 flex items-center justify-center w-32 h-32">
@@ -94,7 +134,7 @@ export default function Home() {
             Enter Dashboard
           </Link>
           <div className="mt-4 text-xs opacity-60 max-w-xs mx-auto text-gray-400 relative z-10">
-            No judgment. Just memes.
+            No judgment. Just memes. 
           </div>
         </section>
 
@@ -231,6 +271,7 @@ export default function Home() {
           </div>
         </footer>
       </main>
+      </div>
     </div>
   );
 }
