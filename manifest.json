@@ -1,0 +1,28 @@
+{
+  "manifest_version": 3,
+  "name": "Instagram Reel Tracker",
+  "version": "1.0",
+  "permissions": ["storage", "scripting", "activeTab", "tabs"],
+  "host_permissions": ["https://www.instagram.com/*"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://www.instagram.com/*", "http://localhost:3000/*"],
+      "js": ["content.js"]
+    }
+  ],
+  "action": {
+    "default_popup": "popup.tsx"
+  },
+  "externally_connectable": {
+    "matches": ["http://localhost:3000/*", "https://yourwebsite.com/*"]
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["*.png", "*.jpg", "*.jpeg", "job-application-job.png"],
+      "matches": ["https://www.instagram.com/*", "http://localhost:3000/*"]
+    }
+  ]
+}
