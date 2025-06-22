@@ -46,25 +46,8 @@ export function SignUpForm({
       return;
     }
 
-    // Check if username is unique
-    // const { data: existingUsers, error: usernameError } = await supabase
-    //   .from("users") // or 'profiles' if you have a profiles table
-    //   .select("id")
-    //   .eq("username", username)
-    //   .limit(1);
-    // if (usernameError) {
-    //   setError("Error checking username uniqueness");
-    //   setIsLoading(false);
-    //   return;
-    // }
-    // if (existingUsers && existingUsers.length > 0) {
-    //   setError("Username is already taken");
-    //   setIsLoading(false);
-    //   return;
-    // }
-
     try {
-      const { error } = await supabase.auth.signUp({
+      const { error, data } = await supabase.auth.signUp({
         email,
         password,
         options: {
@@ -74,16 +57,14 @@ export function SignUpForm({
       });
       if (error) throw error;
 
-      // Insert into mainData after successful sign up
-      const { error: insertError } = await supabase
-        .from("mainData")
-        .insert([{ username, email }]); // watchedReels will default to 0
-      if (insertError) {
-        setError(
-          "Account created, but failed to save stats: " + insertError.message
-        );
-        return;
-      }
+      // ✅ Send user email to Chrome extension
+      window.postMessage(
+        {
+          type: "SET_USER_ID",
+          id: email, // sending the email
+        },
+        "*"
+      );
 
       router.push("/auth/sign-up-success");
     } catch (error: unknown) {
