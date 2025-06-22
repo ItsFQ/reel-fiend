@@ -121,35 +121,35 @@ export default function Dashboard() {
 		<div className="bg-base-100 min-h-screen font-sans">
 			{/* Header */}
 			<header className="bg-[#1B2028] border-b border-[#232733] px-4 py-6">
-  <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-    {/* Left: Logo + Titles */}
-    <div className="flex flex-col items-center md:items-start text-center md:text-left gap-1">
-      <Link href="/" className="text-[#36D399] font-bold text-lg flex items-center gap-2">
-        <Image src="/images/logo.png" alt="Logo" width={30} height={30} className="rounded-full" />
-        ReelsFiend
-      </Link>
-      <h1 className="text-2xl font-bold text-[#36D399]">ReelFiend Dashboard</h1>
-      <p className="text-gray-400 text-sm">Your digital shame, quantified</p>
-    </div>
+				<div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+					{/* Left: Logo + Titles */}
+					<div className="flex flex-col items-center md:items-start text-center md:text-left gap-1">
+						<Link href="/" className="text-[#36D399] font-bold text-lg flex items-center gap-2">
+							<Image src="/images/logo.png" alt="Logo" width={30} height={30} className="rounded-full" />
+							ReelsFiend
+						</Link>
+						<h1 className="text-2xl font-bold text-[#36D399]">ReelFiend Dashboard</h1>
+						<p className="text-gray-400 text-sm">Your digital shame, quantified</p>
+					</div>
 
-    {/* Right: User Info + Logout */}
-    <div className="flex items-center gap-4">
-      <div className="text-right">
-        <div className="text-lg font-bold text-white">{currentUser.username}</div>
-        <div className={`text-sm font-semibold ${getRankColor(currentUser.rank)}`}>Rank: {currentUser.rank}</div>
-      </div>
-      <div className="w-10 h-10 rounded-full bg-[#232733] flex items-center justify-center">
-        <span className="text-lg">👤</span>
-      </div>
-      <button
-        onClick={handleLogout}
-        className="ml-4 px-4 py-2 rounded bg-red-600 text-white font-semibold hover:bg-red-700 transition"
-      >
-        Logout
-      </button>
-    </div>
-  </div>
-</header>
+					{/* Right: User Info + Logout */}
+					<div className="flex items-center gap-4">
+						<div className="text-right">
+							<div className="text-lg font-bold text-white">{currentUser.username}</div>
+							<div className={`text-sm font-semibold ${getRankColor(currentUser.rank)}`}>Rank: {currentUser.rank}</div>
+						</div>
+						<div className="w-10 h-10 rounded-full bg-[#232733] flex items-center justify-center">
+							<span className="text-lg">👤</span>
+						</div>
+						<button
+							onClick={handleLogout}
+							className="ml-4 px-4 py-2 rounded bg-red-600 text-white font-semibold hover:bg-red-700 transition"
+						>
+							Logout
+						</button>
+					</div>
+				</div>
+			</header>
 
 			<main className="max-w-6xl mx-auto px-4 py-8">
 				{/* Stats Overview */}
@@ -204,7 +204,7 @@ export default function Dashboard() {
 							</div>
 							<div className="mt-4 text-sm text-gray-400">Based on your {currentUser.reelsToday} Reels today</div>
 						</div>
-						
+
 						{/* Leaderboard Section */}
 						<div className="bg-[#232733] rounded-xl p-6 shadow-lg border border-[#232733]">
 							<div className="flex items-center justify-between mb-4">
@@ -215,43 +215,40 @@ export default function Dashboard() {
 								<div className="bg-[#1B2028] rounded-lg p-1 flex gap-1">
 									<button
 										onClick={() => setLeaderboardTab('global')}
-										className={`flex items-center gap-1 px-3 py-2 rounded text-sm font-semibold transition-all ${
-											leaderboardTab === 'global' 
-												? 'bg-[#36D399] text-black' 
+										className={`flex items-center gap-1 px-3 py-2 rounded text-sm font-semibold transition-all ${leaderboardTab === 'global'
+												? 'bg-[#36D399] text-black'
 												: 'text-gray-400 hover:text-white'
-										}`}
+											}`}
 									>
 										<Globe className="w-4 h-4" />
 										Global
 									</button>
 									<button
 										onClick={() => setLeaderboardTab('friends')}
-										className={`flex items-center gap-1 px-3 py-2 rounded text-sm font-semibold transition-all ${
-											leaderboardTab === 'friends' 
-												? 'bg-[#36D399] text-black' 
+										className={`flex items-center gap-1 px-3 py-2 rounded text-sm font-semibold transition-all ${leaderboardTab === 'friends'
+												? 'bg-[#36D399] text-black'
 												: 'text-gray-400 hover:text-white'
-										}`}
+											}`}
 									>
 										<Users className="w-4 h-4" />
 										Friends
 									</button>
 								</div>
 							</div>
-							
+
 							<div className="space-y-3">
 								{currentLeaderboard.slice(0, 5).map((user, index) => (
-									<div 
-										key={user.id} 
-										className={`flex items-center gap-3 p-3 rounded-lg border transition-colors ${
-											user.isCurrentUser 
-												? 'bg-[#1B2028] border-[#36D399]' 
+									<div
+										key={user.id}
+										className={`flex items-center gap-3 p-3 rounded-lg border transition-colors ${user.isCurrentUser
+												? 'bg-[#1B2028] border-[#36D399]'
 												: 'bg-[#1B2028] border-[#1B2028] hover:border-[#232733]'
-										}`}
+											}`}
 									>
 										<div className="flex items-center justify-center w-6">
 											{getRankIcon(index + 1)}
 										</div>
-										
+
 										<div className="relative">
 											<div className="w-8 h-8 rounded-full bg-[#232733] flex items-center justify-center text-sm">
 												{user.isCurrentUser ? '👤' : ['🎮', '🚀', '🎨', '⚡', '🌈'][index]}
@@ -260,7 +257,7 @@ export default function Dashboard() {
 												<div className={`absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full border border-[#1B2028] ${getStatusColor(user.status)}`}></div>
 											)}
 										</div>
-										
+
 										<div className="flex-1">
 											<div className="flex items-center gap-2">
 												<span className={`font-semibold text-sm ${user.isCurrentUser ? 'text-[#36D399]' : 'text-white'}`}>
@@ -271,7 +268,7 @@ export default function Dashboard() {
 											</div>
 											<div className={`text-xs ${getRankColor(user.rank)}`}>{user.rank}</div>
 										</div>
-										
+
 										<div className="flex gap-4 text-right">
 											<div>
 												<div className={`text-sm font-bold ${getAuraColor(user.aura)}`}>{user.aura}</div>
@@ -285,7 +282,7 @@ export default function Dashboard() {
 									</div>
 								))}
 							</div>
-							
+
 							<div className="mt-4 text-center">
 								<div className="text-sm text-gray-400">
 									Your position: <span className="text-[#36D399] font-semibold">#{leaderboardTab === 'global' ? '7' : '2'}</span>
