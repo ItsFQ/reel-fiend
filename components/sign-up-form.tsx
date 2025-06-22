@@ -47,21 +47,21 @@ export function SignUpForm({
     }
 
     // Check if username is unique
-    const { data: existingUsers, error: usernameError } = await supabase
-      .from("users") // or 'profiles' if you have a profiles table
-      .select("id")
-      .eq("username", username)
-      .limit(1);
-    if (usernameError) {
-      setError("Error checking username uniqueness");
-      setIsLoading(false);
-      return;
-    }
-    if (existingUsers && existingUsers.length > 0) {
-      setError("Username is already taken");
-      setIsLoading(false);
-      return;
-    }
+    // const { data: existingUsers, error: usernameError } = await supabase
+    //   .from("users") // or 'profiles' if you have a profiles table
+    //   .select("id")
+    //   .eq("username", username)
+    //   .limit(1);
+    // if (usernameError) {
+    //   setError("Error checking username uniqueness");
+    //   setIsLoading(false);
+    //   return;
+    // }
+    // if (existingUsers && existingUsers.length > 0) {
+    //   setError("Username is already taken");
+    //   setIsLoading(false);
+    //   return;
+    // }
 
     try {
       const { error } = await supabase.auth.signUp({

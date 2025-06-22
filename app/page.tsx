@@ -9,10 +9,10 @@ export default function Home() {
   const [isGameOpen, setIsGameOpen] = useState(false);
 
   const features = [
-    { emoji: "📊", text: "Daily Reel Counter" },
-    { emoji: "🏆", text: "Leaderboard of Shame" },
-    { emoji: "🔥", text: "Roast of the Day" },
-    { emoji: "🔒", text: "Privacy (just kidding!)" },
+    { emoji: "📊", text: "Daily Reel Counter", desc: "Track your daily scroll habits" },
+    { emoji: "🏆", text: "Leaderboard of Shame", desc: "See who's winning at losing" },
+    { emoji: "🔥", text: "Roast of the Day", desc: "Daily reality checks" },
+    { emoji: "🎯", text: "Goal Setting", desc: "Set limits and break them" },
   ];
 
   const emojiBackdropRef = useRef<HTMLDivElement>(null);
@@ -23,7 +23,6 @@ export default function Home() {
       const hero = document.getElementById("hero-section");
       if (!hero) return;
       const rect = hero.getBoundingClientRect();
-      // Fade out as hero scrolls out of view (top < 0)
       let opacity = 1;
       if (rect.bottom < 0) opacity = 0;
       else if (rect.top < 0) opacity = 1 + rect.top / rect.height;
@@ -34,20 +33,19 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="bg-[#181C23] min-h-screen text-gray-100">
-      {/* Simple Auth Header */}
+    <div className="bg-gradient-to-br from-[#0F0F23] via-[#1A1A2E] to-[#16213E] min-h-screen text-gray-100">
       <Navbar isGameOpen={isGameOpen} setIsGameOpen={setIsGameOpen} />
 
       {/* Subway Surfers Video Sidebar */}
       {isGameOpen && (
-        <div className="fixed left-0 top-0 h-full w-80 bg-[#181C23] border-r-2 border-[#36D399] z-40 shadow-2xl">
-          <div className="p-4 border-b border-[#232733] flex justify-between items-center">
-            <h3 className="text-lg font-bold text-[#36D399] flex items-center gap-2">
+        <div className="fixed left-0 top-0 h-full w-80 bg-gradient-to-b from-[#0F0F23] to-[#1A1A2E] border-r border-[#00D4AA]/20 z-40 shadow-2xl backdrop-blur-xl">
+          <div className="p-4 border-b border-[#00D4AA]/20 flex justify-between items-center">
+            <h3 className="text-lg font-bold text-[#00D4AA] flex items-center gap-2">
               🚇 Weak attention span?
             </h3>
             <button
               onClick={() => setIsGameOpen(false)}
-              className="text-gray-400 hover:text-white text-xl font-bold"
+              className="text-gray-400 hover:text-white text-xl font-bold transition-colors"
             >
               ✕
             </button>
@@ -64,199 +62,354 @@ export default function Home() {
         </div>
       )}
 
-      {/* Content wrapper with left margin when sidebar is open */}
       <div className={`transition-all duration-300 ${isGameOpen ? 'ml-80' : 'ml-0'}`}>
-
         <main className="font-sans">
-          {/* HERO */}
-          <section id="hero-section" className="relative flex flex-col items-center justify-center py-32 px-4 text-center gap-4">
-            {/* Emoji Backdrop */}
+          {/* HERO SECTION */}
+          <section id="hero-section" className="relative flex flex-col items-center justify-center min-h-screen px-4 text-center">
+            {/* Animated Background Elements */}
+            <div className="absolute inset-0 overflow-hidden">
+              <div className="absolute top-20 left-20 w-72 h-72 bg-[#00D4AA]/10 rounded-full blur-3xl animate-pulse"></div>
+              <div className="absolute bottom-20 right-20 w-96 h-96 bg-[#FF6B6B]/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
+              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-[#4ECDC4]/5 rounded-full blur-3xl animate-pulse delay-500"></div>
+            </div>
+
+            {/* Floating Emojis */}
             <div
               ref={emojiBackdropRef}
               className="pointer-events-none absolute inset-0 w-full h-full z-0"
               aria-hidden="true"
             >
-              {/* Animated floating emojis */}
-              <div className="absolute animate-bounce left-1/4 top-10 text-[3rem] opacity-30 select-none">😂</div>
-              <div className="absolute animate-pulse right-1/4 top-24 text-[2.5rem] opacity-20 select-none">🔥</div>
-              <div className="absolute animate-bounce left-1/3 bottom-10 text-[4rem] opacity-25 select-none">🤳</div>
-              <div className="absolute animate-pulse right-1/3 bottom-20 text-[3.5rem] opacity-20 select-none">💀</div>
-              <div className="absolute animate-bounce left-10 top-1/2 text-[2.5rem] opacity-20 select-none">😅</div>
-              <div className="absolute animate-pulse right-10 top-1/3 text-[2.5rem] opacity-25 select-none">👑</div>
-              <div className="absolute animate-bounce right-1/5 top-1/5 text-[2.5rem] opacity-20 select-none">🙈</div>
-              {/* Add subway surfer emoji */}
-              <div className="absolute animate-bounce left-1/5 bottom-1/3 text-[3rem] opacity-25 select-none">🚇</div>
+              <div className="absolute animate-bounce left-1/4 top-20 text-[4rem] opacity-20 select-none">😂</div>
+              <div className="absolute animate-bounce delay-100 right-1/4 top-32 text-[3rem] opacity-15 select-none">🔥</div>
+              <div className="absolute animate-bounce delay-200 left-1/3 bottom-20 text-[5rem] opacity-25 select-none">🤳</div>
+              <div className="absolute animate-bounce delay-300 right-1/3 bottom-32 text-[3.5rem] opacity-20 select-none">💀</div>
+              <div className="absolute animate-bounce delay-500 left-16 top-1/2 text-[3rem] opacity-15 select-none">😅</div>
+              <div className="absolute animate-bounce delay-700 right-16 top-1/3 text-[3rem] opacity-20 select-none">👑</div>
+              <div className="absolute animate-bounce delay-1000 right-1/5 top-1/5 text-[3rem] opacity-15 select-none">🙈</div>
+              <div className="absolute animate-bounce delay-150 left-1/5 bottom-1/3 text-[4rem] opacity-25 select-none">🚇</div>
             </div>
-            <div className="flex flex-col items-center w-full relative z-10">
-              <div className="mx-auto mb-4 flex items-center justify-center w-32 h-32">
-               <div className="w-32 h-32 rounded-full border-4 border-[#36D399] flex items-center justify-center bg-[#232733] shadow-lg">
-  <Image
-    src="/images/logo.png"
-    alt="Logo"
-    width={100}
-    height={100}
-    className="rounded-full"
-  />
-</div>
+
+            <div className="flex flex-col items-center w-full relative z-10 max-w-4xl mx-auto">
+              {/* Logo */}
+              <div className="mb-8 relative">
+                <div className="w-32 h-32 rounded-full border-4 border-[#00D4AA] flex items-center justify-center bg-gradient-to-br from-[#1A1A2E] to-[#16213E] shadow-2xl shadow-[#00D4AA]/20">
+                  <Image
+                    src="/images/logo.png"
+                    alt="Logo"
+                    width={100}
+                    height={100}
+                    className="rounded-full"
+                  />
+                </div>
+                <div className="absolute -inset-1 bg-gradient-to-r from-[#00D4AA] to-[#4ECDC4] rounded-full blur opacity-20"></div>
               </div>
-              <div className="flex flex-col items-center gap-2 w-full">
-                <h1 className="text-5xl md:text-6xl font-extrabold mb-1 text-[#36D399] flex flex-col items-center w-full">
+
+              {/* Title */}
+              <div className="flex flex-col items-center gap-4 mb-8">
+                <h1 className="text-6xl md:text-8xl font-black bg-gradient-to-r from-[#00D4AA] via-[#4ECDC4] to-[#00D4AA] bg-clip-text text-transparent animate-gradient-x">
                   ReelsFiend
-                  <span className="text-base bg-[#232733] px-3 py-1 rounded-full border border-[#36D399] font-bold mt-2">Sigma Ranker</span>
                 </h1>
-                <div className="flex items-center gap-2 text-[#36D399] text-lg font-mono">
-                  <span className="animate-pulse">∞</span> <span className="opacity-70">Aura</span>
+                <div className="flex items-center gap-4">
+                  <span className="text-lg bg-gradient-to-r from-[#FF6B6B] to-[#FFE66D] bg-clip-text text-transparent font-bold px-4 py-2 rounded-full border border-[#00D4AA]/30 backdrop-blur-sm">
+                    Sigma Ranker
+                  </span>
+                  <div className="flex items-center gap-2 text-[#00D4AA] text-xl font-mono">
+                    <span className="animate-pulse text-2xl">∞</span>
+                    <span className="opacity-80">Aura</span>
+                  </div>
                 </div>
               </div>
-            </div>
-            <p className="text-lg md:text-xl opacity-80 mb-6 max-w-xl mx-auto text-gray-300 relative z-10">
-              Start as a <span className="text-[#36D399] font-bold">Sigma</span> with infinite aura. The more reels you watch, the lower your rank and aura fall. Can you resist the scroll?
-            </p>
-            <Link
-              href="/protected"
-              className="inline-block bg-[#36D399] text-[#181C23] font-bold border-0 shadow-xl rounded-full px-10 py-4 mt-2 transition-transform duration-200 hover:scale-105 hover:rotate-1 active:scale-95 relative z-10 text-center"
-            >
-              Enter Dashboard
-            </Link>
-            <div className="mt-4 text-xs opacity-60 max-w-xs mx-auto text-gray-400 relative z-10">
-              No judgment. Just memes.
+
+              {/* Subtitle */}
+              <p className="text-xl md:text-2xl opacity-90 mb-10 max-w-3xl mx-auto text-gray-300 leading-relaxed">
+                Start as a <span className="text-[#00D4AA] font-bold">Sigma</span> with infinite aura. 
+                The more reels you watch, the lower your rank falls. 
+                <span className="block mt-2 text-[#FF6B6B] font-semibold">Can you resist the endless scroll?</span>
+              </p>
+
+              {/* CTA Button */}
+              <Link
+                href="/protected"
+                className="group relative inline-flex items-center justify-center px-12 py-4 text-lg font-bold text-[#0F0F23] bg-gradient-to-r from-[#00D4AA] to-[#4ECDC4] rounded-full overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-[#00D4AA]/25"
+              >
+                <span className="absolute inset-0 bg-gradient-to-r from-[#4ECDC4] to-[#00D4AA] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                <span className="relative flex items-center gap-2">
+                  Enter Dashboard
+                  <span className="group-hover:translate-x-1 transition-transform">→</span>
+                </span>
+              </Link>
+
+              <div className="mt-6 text-sm opacity-60 text-gray-400">
+                No judgment. Just brutal honesty. 💀
+              </div>
             </div>
           </section>
 
-          {/* FEATURES */}
-          <section className="py-16 px-4 bg-[#1B2028] border-t border-[#232733]">
-            <h2 className="text-3xl font-bold mb-10 text-center text-[#36D399]">Features</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
-              {features.map((feature, index) => (
-                <div key={index} className="bg-[#232733] rounded-xl p-6 shadow-lg flex items-center gap-4">
-                  <span className="text-4xl">{feature.emoji}</span>
-                  <span className="text-lg md:text-xl font-semibold">{feature.text}</span>
-                </div>
-              ))}
+          {/* FEATURES SECTION */}
+          <section className="py-24 px-4 bg-gradient-to-b from-transparent to-[#0F0F23]/50">
+            <div className="max-w-6xl mx-auto">
+              <h2 className="text-4xl md:text-5xl font-bold mb-4 text-center bg-gradient-to-r from-[#00D4AA] to-[#4ECDC4] bg-clip-text text-transparent">
+                Features That Hit Different
+              </h2>
+              <p className="text-xl text-gray-400 text-center mb-16 max-w-2xl mx-auto">
+                Everything you need to track your digital shame and compete with fellow scroll addicts
+              </p>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                {features.map((feature, index) => (
+                  <div 
+                    key={index} 
+                    className="group relative bg-gradient-to-br from-[#1A1A2E]/80 to-[#16213E]/80 backdrop-blur-sm rounded-2xl p-6 border border-[#00D4AA]/20 hover:border-[#00D4AA]/40 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-[#00D4AA]/10"
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-br from-[#00D4AA]/5 to-transparent opacity-0 group-hover:opacity-100 rounded-2xl transition-opacity duration-300"></div>
+                    <div className="relative z-10">
+                      <div className="text-5xl mb-4 group-hover:scale-110 transition-transform duration-300">
+                        {feature.emoji}
+                      </div>
+                      <h3 className="text-xl font-bold mb-2 text-[#00D4AA] group-hover:text-[#4ECDC4] transition-colors">
+                        {feature.text}
+                      </h3>
+                      <p className="text-gray-400 text-sm leading-relaxed">
+                        {feature.desc}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </section>
 
-          {/* LEADERBOARD TEASER */}
-          <section className="py-16 px-4 text-center">
-            <h2 className="text-2xl md:text-3xl font-bold mb-4 text-[#36D399] flex items-center justify-center gap-2">
-              🏆 Leaderboard of Shame
-            </h2>
-            <p className="mb-8 opacity-80 text-base md:text-lg text-gray-300">
-              See who&apos;s watched the most Reels today.<br />
-              Will you top the charts or escape unnoticed?
-            </p>
-            <div className="flex flex-col items-center gap-4 w-full max-w-2xl mx-auto">
-              {[
-                { rank: 1, user: '@doomscroll_king', reels: 237, aura: 12, rankName: 'Beta', color: 'bg-[#36D399]', text: 'text-[#181C23]', emoji: '🔥' },
-                { rank: 2, user: '@scrollinator', reels: 201, aura: 18, rankName: 'Gamma', color: 'bg-pink-400', text: 'text-white', emoji: '😳' },
-                { rank: 3, user: '@reel_addict', reels: 180, aura: 25, rankName: 'Delta', color: 'bg-yellow-400', text: 'text-[#181C23]', emoji: '🤦‍♂️' },
-              ].map((entry) => (
-                <div key={entry.rank} className="bg-[#232733] rounded-xl px-6 py-5 shadow-md font-mono text-xl md:text-2xl border border-[#232733] flex flex-col md:flex-row md:items-center md:justify-between w-full mb-2">
-                  <div className="flex items-center gap-2 mb-2 md:mb-0">
-                    <span className={`inline-block ${entry.color} ${entry.text} font-bold rounded-full px-4 py-1`}>#{entry.rank}</span>
-                    <span className="font-bold text-[#36D399]">{entry.user}</span>
-                    <span className="ml-3 font-bold">{entry.emoji} {entry.reels} Reels</span>
+          {/* LEADERBOARD SECTION */}
+          <section className="py-24 px-4">
+            <div className="max-w-4xl mx-auto text-center">
+              <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-[#FF6B6B] to-[#FFE66D] bg-clip-text text-transparent flex items-center justify-center gap-3">
+                🏆 Hall of Shame
+              </h2>
+              <p className="text-xl text-gray-400 mb-12">
+                The brave souls who aren't afraid to show their scroll stats
+              </p>
+              
+              <div className="space-y-4">
+                {[
+                  { rank: 1, user: '@doomscroll_king', reels: 237, aura: 12, rankName: 'Beta', gradient: 'from-[#FFD700] to-[#FFA500]', emoji: '🔥' },
+                  { rank: 2, user: '@scrollinator', reels: 201, aura: 18, rankName: 'Gamma', gradient: 'from-[#C0C0C0] to-[#A0A0A0]', emoji: '😳' },
+                  { rank: 3, user: '@reel_addict', reels: 180, aura: 25, rankName: 'Delta', gradient: 'from-[#CD7F32] to-[#B8860B]', emoji: '🤦‍♂️' },
+                ].map((entry) => (
+                  <div key={entry.rank} className="group bg-gradient-to-r from-[#1A1A2E]/80 to-[#16213E]/80 backdrop-blur-sm rounded-2xl p-6 border border-[#00D4AA]/20 hover:border-[#00D4AA]/40 transition-all duration-300 hover:scale-[1.02]">
+                    <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                      <div className="flex items-center gap-4">
+                        <div className={`w-12 h-12 rounded-full bg-gradient-to-r ${entry.gradient} flex items-center justify-center font-bold text-black text-lg shadow-lg`}>
+                          #{entry.rank}
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <span className="font-bold text-[#00D4AA] text-lg">{entry.user}</span>
+                          <span className="text-2xl">{entry.emoji}</span>
+                          <span className="font-bold text-white">{entry.reels} Reels</span>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-4 text-sm md:text-base">
+                        <div className="flex items-center gap-2">
+                          <span className="text-gray-400">Rank:</span>
+                          <span className="font-bold text-[#FF6B6B]">{entry.rankName}</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <span className="text-gray-400">Aura:</span>
+                          <span className="font-bold text-[#FFE66D]">{entry.aura}</span>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <div className="flex items-center gap-2 text-[#36D399] text-base md:text-lg font-mono">
-                    <span>Rank:</span> <span className="font-bold">{entry.rankName}</span> <span className="ml-2">Aura:</span> <span className="font-bold text-yellow-400">{entry.aura}</span>
-                  </div>
-                </div>
-              ))}
-              <div className="text-gray-400 text-base mt-2">Will you be next? 👀</div>
+                ))}
+              </div>
+              <div className="mt-8 text-gray-400">
+                Ready to join the leaderboard? 👀
+              </div>
             </div>
           </section>
 
           {/* PRICING SECTION */}
-          <section className="py-20 px-4 bg-[#1B2028] border-t border-[#232733]">
-            <h2 className="text-3xl font-bold mb-10 text-center text-[#36D399]">Pricing</h2>
-            <div className="flex flex-col md:flex-row gap-8 max-w-4xl mx-auto justify-center">
-              <div className="flex-1 bg-[#232733] rounded-xl p-8 shadow border border-[#232733] flex flex-col items-center">
-                <div className="text-2xl font-bold mb-2 text-[#36D399]">Sigma (Free)</div>
-                <div className="text-5xl font-extrabold mb-4 text-white">$0</div>
-                <ul className="mb-6 text-gray-300 text-left list-disc list-inside">
-                  <li>Start with infinite aura</li>
-                  <li>Track your shame</li>
-                  <li>Leaderboard access</li>
-                  <li>Basic roasts</li>
-                </ul>
-                <Link
-                  href="/signup"
-                  className="w-full bg-[#36D399] text-[#181C23] font-bold rounded-full border-0 hover:bg-[#23b37a] inline-block text-center py-3 transition-colors"
-                >
-                  Get Started
-                </Link>
-              </div>
-              <div className="flex-1 bg-[#232733] rounded-xl p-8 shadow border border-[#36D399] flex flex-col items-center scale-105">
-                <div className="text-2xl font-bold mb-2 text-[#FFD700] flex items-center gap-2">Alpha <span className="text-[#FFD700]">★</span></div>
-                <div className="text-5xl font-extrabold mb-4 text-white">$5<span className="text-lg font-normal">/mo</span></div>
-                <ul className="mb-6 text-gray-300 text-left list-disc list-inside">
-                  <li>All Sigma features</li>
-                  <li>Custom roasts</li>
-                  <li>Advanced stats</li>
-                  <li>Priority support</li>
-                  <li>Exclusive badge</li>
-                </ul>
-                <button className="w-full bg-[#FFD700] text-[#181C23] font-bold rounded-full border-0 hover:bg-yellow-400 py-3 transition-colors">
-                  Upgrade Soon
-                </button>
+          <section className="py-24 px-4 bg-gradient-to-b from-[#0F0F23]/50 to-transparent">
+            <div className="max-w-5xl mx-auto">
+              <h2 className="text-4xl md:text-5xl font-bold mb-16 text-center bg-gradient-to-r from-[#00D4AA] to-[#4ECDC4] bg-clip-text text-transparent">
+                Choose Your Shame Level
+              </h2>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <div className="bg-gradient-to-br from-[#1A1A2E]/80 to-[#16213E]/80 backdrop-blur-sm rounded-2xl p-8 border border-[#00D4AA]/20 hover:border-[#00D4AA]/40 transition-all duration-300">
+                  <div className="text-center mb-6">
+                    <h3 className="text-2xl font-bold mb-2 text-[#00D4AA]">Sigma</h3>
+                    <div className="text-5xl font-black mb-4 text-white">FREE</div>
+                    <p className="text-gray-400">Start your journey to shame</p>
+                  </div>
+                  <ul className="space-y-3 mb-8 text-gray-300">
+                    <li className="flex items-center gap-3">
+                      <span className="text-[#00D4AA]">✓</span>
+                      Start with infinite aura
+                    </li>
+                    <li className="flex items-center gap-3">
+                      <span className="text-[#00D4AA]">✓</span>
+                      Basic shame tracking
+                    </li>
+                    <li className="flex items-center gap-3">
+                      <span className="text-[#00D4AA]">✓</span>
+                      Leaderboard access
+                    </li>
+                    <li className="flex items-center gap-3">
+                      <span className="text-[#00D4AA]">✓</span>
+                      Daily roasts
+                    </li>
+                  </ul>
+                  <Link
+                    href="/signup"
+                    className="w-full bg-gradient-to-r from-[#00D4AA] to-[#4ECDC4] text-[#0F0F23] font-bold rounded-full py-3 text-center block hover:scale-105 transition-transform duration-200"
+                  >
+                    Start Free
+                  </Link>
+                </div>
+
+                <div className="relative bg-gradient-to-br from-[#1A1A2E] to-[#16213E] rounded-2xl p-8 border-2 border-[#FFD700] scale-105 shadow-2xl shadow-[#FFD700]/20">
+                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-[#FFD700] to-[#FFA500] text-[#0F0F23] px-4 py-1 rounded-full text-sm font-bold">
+                    COMING SOON
+                  </div>
+                  <div className="text-center mb-6">
+                    <h3 className="text-2xl font-bold mb-2 text-[#FFD700] flex items-center justify-center gap-2">
+                      Alpha ★
+                    </h3>
+                    <div className="text-5xl font-black mb-4 text-white">
+                      $5<span className="text-lg font-normal text-gray-400">/mo</span>
+                    </div>
+                    <p className="text-gray-400">Premium shame experience</p>
+                  </div>
+                  <ul className="space-y-3 mb-8 text-gray-300">
+                    <li className="flex items-center gap-3">
+                      <span className="text-[#FFD700]">★</span>
+                      All Sigma features
+                    </li>
+                    <li className="flex items-center gap-3">
+                      <span className="text-[#FFD700]">★</span>
+                      Custom roast generator
+                    </li>
+                    <li className="flex items-center gap-3">
+                      <span className="text-[#FFD700]">★</span>
+                      Advanced analytics
+                    </li>
+                    <li className="flex items-center gap-3">
+                      <span className="text-[#FFD700]">★</span>
+                      Exclusive badges
+                    </li>
+                  </ul>
+                  <button className="w-full bg-gradient-to-r from-[#FFD700] to-[#FFA500] text-[#0F0F23] font-bold rounded-full py-3 hover:scale-105 transition-transform duration-200 cursor-not-allowed opacity-75">
+                    Coming Soon
+                  </button>
+                </div>
               </div>
             </div>
           </section>
 
-          {/* ROAST PREVIEWS */}
-          <section className="py-16 px-4">
-            <h2 className="text-2xl md:text-3xl font-bold mb-10 text-center text-[#36D399]">🔥 Today&apos;s Roasts</h2>
-            <div className="flex flex-col md:flex-row items-center justify-center gap-8 max-w-4xl mx-auto">
-              <div className="bg-[#232733] rounded-lg p-6 shadow text-lg md:text-xl flex-1 border border-[#232733] text-gray-200">
-                &quot;You&apos;ve watched enough Reels to fill a feature film. 🎬&quot;
-              </div>
-              <div className="bg-[#232733] rounded-lg p-6 shadow text-lg md:text-xl flex-1 border border-[#232733] text-gray-200">
-                &quot;Your thumb deserves a gym membership. 💪&quot;
-              </div>
-              <div className="bg-[#232733] rounded-lg p-6 shadow text-lg md:text-xl flex-1 border border-[#232733] text-gray-200">
-                &quot;Instagram called. They want their bandwidth back. 📶&quot;
-              </div>
-            </div>
-          </section>
-
-          {/* SETUP NOTICE */}
-          <section className="py-16 px-4 bg-[#1B2028] border-t border-[#232733]">
-            <div className="max-w-4xl mx-auto text-center">
-              <h2 className="text-3xl font-bold mb-6 text-[#36D399]">Ready to Track Your Shame?</h2>
-              <p className="text-lg text-gray-300 mb-8">
-                Join thousands of users who are bravely facing their reel addiction.
-                Start your journey from Sigma to... well, we&apos;ll see how far you fall.
+          {/* ROAST SECTION */}
+          <section className="py-24 px-4">
+            <div className="max-w-6xl mx-auto">
+              <h2 className="text-4xl md:text-5xl font-bold mb-4 text-center bg-gradient-to-r from-[#FF6B6B] to-[#FFE66D] bg-clip-text text-transparent">
+                🔥 Daily Roasts
+              </h2>
+              <p className="text-xl text-gray-400 text-center mb-16">
+                We serve reality checks daily. No sugar-coating.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                {[
+                  "You've watched enough Reels to produce a Netflix series. 🎬",
+                  "Your thumb deserves a gym membership at this point. 💪",
+                  "Instagram called. They want their bandwidth back. 📶"
+                ].map((roast, index) => (
+                  <div key={index} className="group bg-gradient-to-br from-[#1A1A2E]/80 to-[#16213E]/80 backdrop-blur-sm rounded-2xl p-6 border border-[#FF6B6B]/20 hover:border-[#FF6B6B]/40 transition-all duration-300 hover:scale-105">
+                    <div className="text-lg text-gray-200 italic leading-relaxed">
+                      "{roast}"
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* CTA SECTION */}
+          <section className="py-24 px-4 bg-gradient-to-br from-[#0F0F23] to-[#1A1A2E]">
+            <div className="max-w-4xl mx-auto text-center">
+              <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-[#00D4AA] to-[#4ECDC4] bg-clip-text text-transparent">
+                Ready to Face Reality?
+              </h2>
+              <p className="text-xl text-gray-300 mb-12 max-w-2xl mx-auto leading-relaxed">
+                Join thousands of brave souls tracking their digital shame. 
+                Start your journey from Sigma to... well, let's see how far you'll fall.
+              </p>
+              
+              <div className="flex flex-col sm:flex-row gap-6 justify-center">
                 <Link
                   href="/signup"
-                  className="bg-[#36D399] text-[#181C23] px-8 py-3 rounded-full font-bold hover:bg-[#23b37a] transition-colors"
+                  className="group relative px-8 py-4 text-lg font-bold text-[#0F0F23] bg-gradient-to-r from-[#00D4AA] to-[#4ECDC4] rounded-full overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-[#00D4AA]/25"
                 >
-                  Start Tracking
+                  <span className="absolute inset-0 bg-gradient-to-r from-[#4ECDC4] to-[#00D4AA] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                  <span className="relative">Start Your Shame Journey</span>
                 </Link>
+                
                 <Link
                   href="/protected"
-                  className="border border-[#36D399] text-[#36D399] px-8 py-3 rounded-full font-bold hover:bg-[#36D399] hover:text-[#181C23] transition-colors"
+                  className="px-8 py-4 text-lg font-bold text-[#00D4AA] border-2 border-[#00D4AA] rounded-full hover:bg-[#00D4AA] hover:text-[#0F0F23] transition-all duration-300 hover:scale-105"
                 >
-                  Already Shameful?
+                  Already Shameful? Login
                 </Link>
               </div>
             </div>
           </section>
+        </main>
 
-          <footer className="py-8 text-center text-sm opacity-60 mt-8 text-gray-400 border-t border-[#232733]">
-            <div className="flex flex-col items-center gap-2">
-              <div>
-                Made with <span className="inline-block">🤡</span> by <span className="font-bold text-[#36D399]">Reel Shame Tracker</span>. Not affiliated with Instagram.
+        {/* FOOTER */}
+        <footer className="py-12 px-4 border-t border-[#00D4AA]/20 bg-gradient-to-r from-[#0F0F23] to-[#1A1A2E]">
+          <div className="max-w-6xl mx-auto">
+            <div className="flex flex-col items-center text-center gap-4">
+              <div className="flex items-center gap-2 text-gray-400">
+                Made with <span className="text-[#FF6B6B]">🤡</span> and brutal honesty by 
+                <span className="font-bold text-[#00D4AA] ml-1">ReelsFiend Team</span>
               </div>
-              <div className="flex items-center gap-2">
-                Powered by{" "}
-                <span className="font-bold text-[#36D399]">Next.js & Supabase</span>
+              <div className="text-sm text-gray-500">
+                Not affiliated with Instagram, Meta, or your therapist.
+              </div>
+              <div className="flex items-center gap-2 text-sm text-gray-400">
+                Powered by <span className="font-semibold text-[#00D4AA]">Next.js</span> & 
+                <span className="font-semibold text-[#4ECDC4]">Supabase</span>
               </div>
             </div>
-          </footer>
-        </main>
+          </div>
+        </footer>
       </div>
     </div>
   );
 }
+
+// Add these custom animations to your globals.css or tailwind config
+/*
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-20px) rotate(5deg); }
+}
+
+@keyframes float-medium {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-15px) rotate(-3deg); }
+}
+
+@keyframes float-fast {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-10px) rotate(2deg); }
+}
+
+@keyframes gradient-x {
+  0%, 100% { background-size: 200% 200%; background-position: left center; }
+  50% { background-size: 200% 200%; background-position: right center; }
+}
+
+.animate-float-slow { animation: float-slow 6s ease-in-out infinite; }
+.animate-float-medium { animation: float-medium 4s ease-in-out infinite; }
+.animate-float-fast { animation: float-fast 3s ease-in-out infinite; }
+.animate-gradient-x { animation: gradient-x 3s ease infinite; }
+*/
