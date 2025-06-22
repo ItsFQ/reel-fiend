@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 import Image from 'next/image'
 import Link from 'next/link';
-import { Trophy, Medal, Crown, Users, Globe } from 'lucide-react';
+import { Trophy, Medal, Crown, Users, Globe, TrendingUp, TrendingDown, Flame, Zap, Target, Calendar, Clock, Star } from 'lucide-react';
 
 const supabase = createClient();
 
@@ -77,16 +77,16 @@ export default function Dashboard() {
 	};
 
 	const getRankIcon = (rank: number) => {
-		if (rank === 1) return <Crown className="w-4 h-4 text-yellow-400" />;
-		if (rank === 2) return <Trophy className="w-4 h-4 text-gray-300" />;
-		if (rank === 3) return <Medal className="w-4 h-4 text-amber-600" />;
-		return <span className="w-4 h-4 flex items-center justify-center text-xs font-bold text-gray-400">#{rank}</span>;
+		if (rank === 1) return <Crown className="w-5 h-5 text-yellow-400 drop-shadow-lg" />;
+		if (rank === 2) return <Trophy className="w-5 h-5 text-gray-300 drop-shadow-lg" />;
+		if (rank === 3) return <Medal className="w-5 h-5 text-amber-600 drop-shadow-lg" />;
+		return <span className="w-5 h-5 flex items-center justify-center text-xs font-bold text-gray-400 bg-gray-700 rounded-full">#{rank}</span>;
 	};
 
 	const getStatusColor = (status: string) => {
 		switch (status) {
-			case 'online': return 'bg-green-500';
-			case 'away': return 'bg-yellow-500';
+			case 'online': return 'bg-green-500 shadow-green-500/50';
+			case 'away': return 'bg-yellow-500 shadow-yellow-500/50';
 			case 'offline': return 'bg-gray-500';
 			default: return 'bg-gray-500';
 		}
@@ -118,107 +118,134 @@ export default function Dashboard() {
 	const currentLeaderboard = leaderboardTab === 'global' ? globalLeaderboard : friendsLeaderboard;
 
 	return (
-		<div className="bg-base-100 min-h-screen font-sans">
+		<div className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 min-h-screen font-sans">
+			{/* Animated Background */}
+			<div className="fixed inset-0 bg-gradient-to-br from-purple-900/10 via-transparent to-emerald-900/10 pointer-events-none"></div>
+			
 			{/* Header */}
-			<header className="bg-[#1B2028] border-b border-[#232733] px-4 py-6">
-  <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-    {/* Left: Logo + Titles */}
-    <div className="flex flex-col items-center md:items-start text-center md:text-left gap-1">
-      <Link href="/" className="text-[#36D399] font-bold text-lg flex items-center gap-2">
-        <Image src="/images/logo.png" alt="Logo" width={30} height={30} className="rounded-full" />
-        ReelsFiend
-      </Link>
-      <h1 className="text-2xl font-bold text-[#36D399]">ReelFiend Dashboard</h1>
-      <p className="text-gray-400 text-sm">Your digital shame, quantified</p>
-    </div>
+			<header className="relative bg-gradient-to-r from-slate-900/95 via-slate-800/95 to-slate-900/95 backdrop-blur-xl border-b border-slate-700/50 px-4 py-6 shadow-2xl">
+				<div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+					{/* Left: Logo + Titles */}
+					<div className="flex flex-col items-center md:items-start text-center md:text-left gap-2">
+						<Link href="/" className="text-emerald-400 font-bold text-xl flex items-center gap-3 hover:text-emerald-300 transition-colors group">
+							<div className="relative">
+								<Image src="/images/logo.png" alt="Logo" width={36} height={36} className="rounded-full ring-2 ring-emerald-400/50 group-hover:ring-emerald-300/70 transition-all" />
+								<div className="absolute -inset-1 bg-emerald-400/20 rounded-full blur group-hover:bg-emerald-300/30 transition-all"></div>
+							</div>
+							ReelsFiend
+						</Link>
+						<div>
+							<h1 className="text-3xl font-bold bg-gradient-to-r from-emerald-400 to-blue-400 bg-clip-text text-transparent">
+								ReelFiend Dashboard
+							</h1>
+							<p className="text-slate-400 text-sm mt-1 font-medium">Your digital shame, beautifully quantified</p>
+						</div>
+					</div>
 
-    {/* Right: User Info + Logout */}
-    <div className="flex items-center gap-4">
-      <div className="text-right">
-        <div className="text-lg font-bold text-white">{currentUser.username}</div>
-        <div className={`text-sm font-semibold ${getRankColor(currentUser.rank)}`}>Rank: {currentUser.rank}</div>
-      </div>
-      <div className="w-10 h-10 rounded-full bg-[#232733] flex items-center justify-center">
-        <span className="text-lg">👤</span>
-      </div>
-      <button
-        onClick={handleLogout}
-        className="ml-4 px-4 py-2 rounded bg-red-600 text-white font-semibold hover:bg-red-700 transition"
-      >
-        Logout
-      </button>
-    </div>
-  </div>
-</header>
+					{/* Right: User Info + Logout */}
+					<div className="flex items-center gap-4">
+						<div className="text-right">
+							<div className="text-xl font-bold text-white">{currentUser.username}</div>
+							<div className={`text-sm font-semibold flex items-center gap-1 justify-end ${getRankColor(currentUser.rank)}`}>
+								<Star className="w-3 h-3" />
+								Rank: {currentUser.rank}
+							</div>
+						</div>
+						<div className="w-12 h-12 rounded-full bg-gradient-to-br from-slate-700 to-slate-800 flex items-center justify-center ring-2 ring-slate-600/50 shadow-lg">
+							<span className="text-xl">👤</span>
+						</div>
+						<button
+							onClick={handleLogout}
+							className="ml-4 px-6 py-3 rounded-xl bg-gradient-to-r from-red-600 to-red-700 text-white font-semibold hover:from-red-700 hover:to-red-800 transition-all duration-200 shadow-lg hover:shadow-red-500/25 transform hover:scale-105"
+						>
+							Logout
+						</button>
+					</div>
+				</div>
+			</header>
 
-			<main className="max-w-6xl mx-auto px-4 py-8">
+			<main className="relative max-w-6xl mx-auto px-4 py-8">
 				{/* Stats Overview */}
 				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-					<div className="bg-[#232733] rounded-xl p-6 shadow-lg border border-[#232733]">
-						<div className="flex items-center justify-between mb-2">
-							<span className="text-gray-400 text-sm">Aura Level</span>
-							<span className="text-lg">⚡</span>
+					<div className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-xl rounded-2xl p-6 shadow-2xl border border-slate-700/50 hover:border-purple-500/50 transition-all duration-300 group">
+						<div className="flex items-center justify-between mb-3">
+							<span className="text-slate-400 text-sm font-medium">Aura Level</span>
+							<Zap className="w-5 h-5 text-purple-400 group-hover:scale-110 transition-transform" />
 						</div>
-						<div className={`text-3xl font-bold ${getAuraColor(currentUser.aura)}`}>{currentUser.aura}</div>
-						<div className="text-xs text-gray-500 mt-1">{currentUser.aura > 50 ? '↗ Rising' : '↘ Falling'}</div>
+						<div className={`text-4xl font-bold ${getAuraColor(currentUser.aura)} mb-1`}>{currentUser.aura}</div>
+						<div className="flex items-center gap-1 text-xs text-slate-500">
+							{currentUser.aura > 50 ? <TrendingUp className="w-3 h-3 text-green-400" /> : <TrendingDown className="w-3 h-3 text-red-400" />}
+							{currentUser.aura > 50 ? 'Rising' : 'Falling'}
+						</div>
 					</div>
-					<div className="bg-[#232733] rounded-xl p-6 shadow-lg border border-[#232733]">
-						<div className="flex items-center justify-between mb-2">
-							<span className="text-gray-400 text-sm">Today&apos;s Reels</span>
-							<span className="text-lg">🎯</span>
+					
+					<div className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-xl rounded-2xl p-6 shadow-2xl border border-slate-700/50 hover:border-emerald-500/50 transition-all duration-300 group">
+						<div className="flex items-center justify-between mb-3">
+							<span className="text-slate-400 text-sm font-medium">Today's Reels</span>
+							<Target className="w-5 h-5 text-emerald-400 group-hover:scale-110 transition-transform" />
 						</div>
-						<div className="text-3xl font-bold text-white">{currentUser.reelsToday}</div>
-						<div className="text-xs text-red-400 mt-1 flex items-center gap-1">
-							<span>📈</span>
+						<div className="text-4xl font-bold text-white mb-1">{currentUser.reelsToday}</div>
+						<div className="flex items-center gap-1 text-xs text-red-400">
+							<TrendingUp className="w-3 h-3" />
 							+12 from yesterday
 						</div>
 					</div>
-					<div className="bg-[#232733] rounded-xl p-6 shadow-lg border border-[#232733]">
-						<div className="flex items-center justify-between mb-2">
-							<span className="text-gray-400 text-sm">Weekly Total</span>
-							<span className="text-lg">📅</span>
+					
+					<div className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-xl rounded-2xl p-6 shadow-2xl border border-slate-700/50 hover:border-blue-500/50 transition-all duration-300 group">
+						<div className="flex items-center justify-between mb-3">
+							<span className="text-slate-400 text-sm font-medium">Weekly Total</span>
+							<Calendar className="w-5 h-5 text-blue-400 group-hover:scale-110 transition-transform" />
 						</div>
-						<div className="text-3xl font-bold text-white">{currentUser.reelsWeek}</div>
-						<div className="text-xs text-gray-500 mt-1">Avg: {Math.round(currentUser.reelsWeek / 7)}/day</div>
+						<div className="text-4xl font-bold text-white mb-1">{currentUser.reelsWeek}</div>
+						<div className="text-xs text-slate-500">Avg: {Math.round(currentUser.reelsWeek / 7)}/day</div>
 					</div>
-					<div className="bg-[#232733] rounded-xl p-6 shadow-lg border border-[#232733]">
-						<div className="flex items-center justify-between mb-2">
-							<span className="text-gray-400 text-sm">Time Wasted</span>
-							<span className="text-lg">⏰</span>
+					
+					<div className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-xl rounded-2xl p-6 shadow-2xl border border-slate-700/50 hover:border-yellow-500/50 transition-all duration-300 group">
+						<div className="flex items-center justify-between mb-3">
+							<span className="text-slate-400 text-sm font-medium">Time Wasted</span>
+							<Clock className="w-5 h-5 text-yellow-400 group-hover:scale-110 transition-transform" />
 						</div>
-						<div className="text-3xl font-bold text-white">{currentUser.timeWasted}</div>
-						<div className="text-xs text-gray-500 mt-1">This week</div>
+						<div className="text-4xl font-bold text-white mb-1">{currentUser.timeWasted}</div>
+						<div className="text-xs text-slate-500">This week</div>
 					</div>
 				</div>
+				
 				<div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
 					{/* Main Content */}
 					<div className="lg:col-span-2 space-y-8">
 						{/* Today's Roast */}
-						<div className="bg-[#232733] rounded-xl p-6 shadow-lg border border-[#232733]">
-							<div className="flex items-center gap-2 mb-4">
-								<span className="text-lg">🔥</span>
-								<h2 className="text-xl font-bold text-[#36D399]">Today&apos;s Personal Roast</h2>
+						<div className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-xl rounded-2xl p-6 shadow-2xl border border-slate-700/50 hover:border-orange-500/50 transition-all duration-300">
+							<div className="flex items-center gap-3 mb-6">
+								<div className="p-2 bg-orange-500/20 rounded-xl">
+									<Flame className="w-6 h-6 text-orange-400" />
+								</div>
+								<h2 className="text-2xl font-bold bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent">Today's Personal Roast</h2>
 							</div>
-							<div className="bg-[#1B2028] rounded-lg p-4 border border-[#232733]">
-								<p className="text-lg text-gray-200 italic">&quot;{getRoastMessage(currentUser?.reelsToday || 0)}&quot;</p>
+							<div className="bg-gradient-to-br from-slate-900/80 to-slate-800/80 rounded-xl p-6 border border-slate-700/50 shadow-inner">
+								<p className="text-lg text-slate-200 italic font-medium leading-relaxed">"{getRoastMessage(currentUser?.reelsToday || 0)}"</p>
 							</div>
-							<div className="mt-4 text-sm text-gray-400">Based on your {currentUser.reelsToday} Reels today</div>
+							<div className="mt-4 text-sm text-slate-400 flex items-center gap-2">
+								<Target className="w-4 h-4" />
+								Based on your {currentUser.reelsToday} Reels today
+							</div>
 						</div>
 						
 						{/* Leaderboard Section */}
-						<div className="bg-[#232733] rounded-xl p-6 shadow-lg border border-[#232733]">
-							<div className="flex items-center justify-between mb-4">
-								<div className="flex items-center gap-2">
-									<span className="text-lg">🏆</span>
-									<h2 className="text-xl font-bold text-[#36D399]">Leaderboard</h2>
+						<div className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-xl rounded-2xl p-6 shadow-2xl border border-slate-700/50">
+							<div className="flex items-center justify-between mb-6">
+								<div className="flex items-center gap-3">
+									<div className="p-2 bg-yellow-500/20 rounded-xl">
+										<Trophy className="w-6 h-6 text-yellow-400" />
+									</div>
+									<h2 className="text-2xl font-bold bg-gradient-to-r from-yellow-400 to-orange-400 bg-clip-text text-transparent">Leaderboard</h2>
 								</div>
-								<div className="bg-[#1B2028] rounded-lg p-1 flex gap-1">
+								<div className="bg-slate-900/50 rounded-xl p-1 flex gap-1 border border-slate-700/50">
 									<button
 										onClick={() => setLeaderboardTab('global')}
-										className={`flex items-center gap-1 px-3 py-2 rounded text-sm font-semibold transition-all ${
+										className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 ${
 											leaderboardTab === 'global' 
-												? 'bg-[#36D399] text-black' 
-												: 'text-gray-400 hover:text-white'
+												? 'bg-gradient-to-r from-emerald-500 to-emerald-600 text-white shadow-lg' 
+												: 'text-slate-400 hover:text-white hover:bg-slate-800/50'
 										}`}
 									>
 										<Globe className="w-4 h-4" />
@@ -226,10 +253,10 @@ export default function Dashboard() {
 									</button>
 									<button
 										onClick={() => setLeaderboardTab('friends')}
-										className={`flex items-center gap-1 px-3 py-2 rounded text-sm font-semibold transition-all ${
+										className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 ${
 											leaderboardTab === 'friends' 
-												? 'bg-[#36D399] text-black' 
-												: 'text-gray-400 hover:text-white'
+												? 'bg-gradient-to-r from-emerald-500 to-emerald-600 text-white shadow-lg' 
+												: 'text-slate-400 hover:text-white hover:bg-slate-800/50'
 										}`}
 									>
 										<Users className="w-4 h-4" />
@@ -242,62 +269,67 @@ export default function Dashboard() {
 								{currentLeaderboard.slice(0, 5).map((user, index) => (
 									<div 
 										key={user.id} 
-										className={`flex items-center gap-3 p-3 rounded-lg border transition-colors ${
+										className={`flex items-center gap-4 p-4 rounded-xl border transition-all duration-200 hover:scale-[1.02] ${
 											user.isCurrentUser 
-												? 'bg-[#1B2028] border-[#36D399]' 
-												: 'bg-[#1B2028] border-[#1B2028] hover:border-[#232733]'
+												? 'bg-gradient-to-r from-emerald-900/30 to-emerald-800/30 border-emerald-500/50 shadow-emerald-500/10 shadow-lg' 
+												: 'bg-slate-900/50 border-slate-700/50 hover:border-slate-600/50 hover:bg-slate-800/50'
 										}`}
 									>
-										<div className="flex items-center justify-center w-6">
+										<div className="flex items-center justify-center w-8">
 											{getRankIcon(index + 1)}
 										</div>
 										
 										<div className="relative">
-											<div className="w-8 h-8 rounded-full bg-[#232733] flex items-center justify-center text-sm">
+											<div className="w-10 h-10 rounded-full bg-gradient-to-br from-slate-700 to-slate-800 flex items-center justify-center text-sm border-2 border-slate-600/50 shadow-lg">
 												{user.isCurrentUser ? '👤' : ['🎮', '🚀', '🎨', '⚡', '🌈'][index]}
 											</div>
 											{leaderboardTab === 'friends' && user.status && (
-												<div className={`absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full border border-[#1B2028] ${getStatusColor(user.status)}`}></div>
+												<div className={`absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full border-2 border-slate-900 shadow-sm ${getStatusColor(user.status)}`}></div>
 											)}
 										</div>
 										
 										<div className="flex-1">
-											<div className="flex items-center gap-2">
-												<span className={`font-semibold text-sm ${user.isCurrentUser ? 'text-[#36D399]' : 'text-white'}`}>
+											<div className="flex items-center gap-2 mb-1">
+												<span className={`font-bold text-base ${user.isCurrentUser ? 'text-emerald-400' : 'text-white'}`}>
 													{user.username}
 												</span>
-												{user.isCurrentUser && <span className="text-xs bg-[#36D399] text-black px-1.5 py-0.5 rounded">You</span>}
-												{leaderboardTab === 'global' && user.country && <span className="text-xs">{user.country}</span>}
+												{user.isCurrentUser && <span className="text-xs bg-emerald-500 text-white px-2 py-1 rounded-full font-medium">You</span>}
+												{leaderboardTab === 'global' && user.country && <span className="text-sm">{user.country}</span>}
 											</div>
-											<div className={`text-xs ${getRankColor(user.rank)}`}>{user.rank}</div>
+											<div className={`text-xs font-medium ${getRankColor(user.rank)}`}>{user.rank}</div>
 										</div>
 										
-										<div className="flex gap-4 text-right">
+										<div className="flex gap-6 text-right">
 											<div>
-												<div className={`text-sm font-bold ${getAuraColor(user.aura)}`}>{user.aura}</div>
-												<div className="text-xs text-gray-400">Aura</div>
+												<div className={`text-base font-bold ${getAuraColor(user.aura)}`}>{user.aura}</div>
+												<div className="text-xs text-slate-400">Aura</div>
 											</div>
 											<div>
-												<div className="text-sm font-bold text-white">{user.reelsWeek}</div>
-												<div className="text-xs text-gray-400">Week</div>
+												<div className="text-base font-bold text-white">{user.reelsWeek}</div>
+												<div className="text-xs text-slate-400">Week</div>
 											</div>
 										</div>
 									</div>
 								))}
 							</div>
 							
-							<div className="mt-4 text-center">
-								<div className="text-sm text-gray-400">
-									Your position: <span className="text-[#36D399] font-semibold">#{leaderboardTab === 'global' ? '7' : '2'}</span>
-									{leaderboardTab === 'global' && <span className="text-gray-500"> out of 10,247 users</span>}
+							<div className="mt-6 text-center p-4 bg-slate-900/50 rounded-xl border border-slate-700/50">
+								<div className="text-sm text-slate-300">
+									Your position: <span className="text-emerald-400 font-bold text-lg">#{leaderboardTab === 'global' ? '7' : '2'}</span>
+									{leaderboardTab === 'global' && <span className="text-slate-500 ml-2">out of 10,247 users</span>}
 								</div>
 							</div>
 						</div>
 
 						{/* Progress Chart */}
-						<div className="bg-[#232733] rounded-xl p-6 shadow-lg border border-[#232733]">
-							<h2 className="text-xl font-bold text-[#36D399] mb-4">Weekly Progress</h2>
-							<div className="space-y-3">
+						<div className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-xl rounded-2xl p-6 shadow-2xl border border-slate-700/50">
+							<div className="flex items-center gap-3 mb-6">
+								<div className="p-2 bg-blue-500/20 rounded-xl">
+									<TrendingUp className="w-6 h-6 text-blue-400" />
+								</div>
+								<h2 className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">Weekly Progress</h2>
+							</div>
+							<div className="space-y-4">
 								{[
 									{ day: 'Mon', reels: 45 },
 									{ day: 'Tue', reels: 67 },
@@ -310,36 +342,52 @@ export default function Dashboard() {
 									const width = Math.min((dayData.reels / 100) * 100, 100);
 									return (
 										<div key={dayData.day} className="flex items-center gap-4">
-											<span className="text-sm text-gray-400 w-8">{dayData.day}</span>
-											<div className="flex-1 bg-[#1B2028] rounded-full h-4 relative">
+											<span className="text-sm font-medium text-slate-300 w-10">{dayData.day}</span>
+											<div className="flex-1 bg-slate-900/50 rounded-full h-5 relative border border-slate-700/50 overflow-hidden">
 												<div
-													className={`h-full rounded-full transition-all duration-500 ${dayData.reels > 60 ? 'bg-red-400' : dayData.reels > 30 ? 'bg-yellow-400' : 'bg-[#36D399]'}`}
-													style={{ width: `${width}%` }}
+													className={`h-full rounded-full transition-all duration-700 ease-out shadow-lg ${
+														dayData.reels > 60 
+															? 'bg-gradient-to-r from-red-500 to-red-600 shadow-red-500/30' 
+															: dayData.reels > 30 
+																? 'bg-gradient-to-r from-yellow-500 to-orange-500 shadow-yellow-500/30' 
+																: 'bg-gradient-to-r from-emerald-500 to-emerald-600 shadow-emerald-500/30'
+													}`}
+													style={{ 
+														width: `${width}%`,
+														animationDelay: `${index * 100}ms`
+													}}
 												/>
 											</div>
-											<span className="text-sm text-white w-8 text-right">{dayData.reels}</span>
+											<span className="text-sm font-bold text-white w-10 text-right">{dayData.reels}</span>
 										</div>
 									);
 								})}
 							</div>
 						</div>
+						
 						{/* Achievements */}
-						<div className="bg-[#232733] rounded-xl p-6 shadow-lg border border-[#232733]">
-							<div className="flex items-center gap-2 mb-4">
-								<span className="text-lg">🏆</span>
-								<h2 className="text-xl font-bold text-[#36D399]">Achievements</h2>
+						<div className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-xl rounded-2xl p-6 shadow-2xl border border-slate-700/50">
+							<div className="flex items-center gap-3 mb-6">
+								<div className="p-2 bg-purple-500/20 rounded-xl">
+									<Trophy className="w-6 h-6 text-purple-400" />
+								</div>
+								<h2 className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">Achievements</h2>
 							</div>
 							<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 								{achievements.map((achievement, index) => (
 									<div
 										key={index}
-										className={`p-4 rounded-lg border ${achievement.unlocked ? 'bg-[#1B2028] border-[#36D399] text-white' : 'bg-[#1B2028] border-gray-600 text-gray-500'}`}
+										className={`p-5 rounded-xl border transition-all duration-200 hover:scale-105 ${
+											achievement.unlocked 
+												? 'bg-gradient-to-br from-emerald-900/30 to-emerald-800/30 border-emerald-500/50 text-white shadow-emerald-500/10 shadow-lg' 
+												: 'bg-slate-900/50 border-slate-700/50 text-slate-400 hover:border-slate-600/50'
+										}`}
 									>
-										<div className="flex items-center gap-3">
-											<span className="text-2xl">{achievement.icon}</span>
+										<div className="flex items-center gap-4">
+											<span className="text-3xl filter drop-shadow-lg">{achievement.icon}</span>
 											<div>
-												<div className="font-semibold">{achievement.name}</div>
-												<div className="text-sm opacity-70">{achievement.desc}</div>
+												<div className="font-bold text-base mb-1">{achievement.name}</div>
+												<div className="text-sm opacity-80">{achievement.desc}</div>
 											</div>
 										</div>
 									</div>
@@ -347,52 +395,66 @@ export default function Dashboard() {
 							</div>
 						</div>
 					</div>
+					
 					{/* Sidebar */}
 					<div className="space-y-6">
 						{/* Rank Progress */}
-						<div className="bg-[#232733] rounded-xl p-6 shadow-lg border border-[#232733]">
-							<h3 className="text-lg font-bold text-[#36D399] mb-4">Rank Progress</h3>
-							<div className="text-center mb-4">
-								<div className={`text-2xl font-bold ${getRankColor(currentUser.rank)}`}>{currentUser.rank}</div>
-								<div className="text-sm text-gray-400">Current Rank</div>
+						<div className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-xl rounded-2xl p-6 shadow-2xl border border-slate-700/50">
+							<h3 className="text-lg font-bold text-emerald-400 mb-6 flex items-center gap-2">
+								<Star className="w-5 h-5" />
+								Rank Progress
+							</h3>
+							<div className="text-center mb-6">
+								<div className={`text-3xl font-bold mb-2 ${getRankColor(currentUser.rank)}`}>{currentUser.rank}</div>
+								<div className="text-sm text-slate-400 font-medium">Current Rank</div>
 							</div>
-							<div className="bg-[#1B2028] rounded-full h-3 mb-2">
+							<div className="bg-slate-900/50 rounded-full h-4 mb-3 border border-slate-700/50 overflow-hidden">
 								<div
-									className="bg-gradient-to-r from-red-400 to-[#36D399] h-full rounded-full transition-all duration-500"
+									className="bg-gradient-to-r from-red-500 via-yellow-500 to-emerald-500 h-full rounded-full transition-all duration-1000 shadow-lg"
 									style={{ width: `${currentUser.aura}%` }}
 								/>
 							</div>
-							<div className="text-xs text-gray-400 text-center">{currentUser.aura > 60 ? 'Rising to Beta' : 'Falling to Delta'}</div>
+							
 						</div>
+						
 						{/* Quick Stats */}
-						<div className="bg-[#232733] rounded-xl p-6 shadow-lg border border-[#232733]">
-							<h3 className="text-lg font-bold text-[#36D399] mb-4">Quick Stats</h3>
-							<div className="space-y-3">
-								<div className="flex justify-between">
-									<span className="text-gray-400">Total Reels</span>
-									<span className="text-white font-semibold">{currentUser.reelsTotal.toLocaleString()}</span>
+						<div className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-xl rounded-2xl p-6 shadow-2xl border border-slate-700/50">
+							<h3 className="text-lg font-bold text-emerald-400 mb-6 flex items-center gap-2">
+								<TrendingUp className="w-5 h-5" />
+								Quick Stats
+							</h3>
+							<div className="space-y-4">
+								<div className="flex justify-between items-center py-2 border-b border-slate-700/30">
+									<span className="text-slate-400 font-medium">Total Reels</span>
+									<span className="text-white font-bold text-lg">{currentUser.reelsTotal.toLocaleString()}</span>
 								</div>
-								<div className="flex justify-between">
-									<span className="text-gray-400">Best Streak</span>
-									<span className="text-white font-semibold">{currentUser.bestStreak} days</span>
+								<div className="flex justify-between items-center py-2 border-b border-slate-700/30">
+									<span className="text-slate-400 font-medium">Best Streak</span>
+									<span className="text-emerald-400 font-bold text-lg">{currentUser.bestStreak} days</span>
 								</div>
-								<div className="flex justify-between">
-									<span className="text-gray-400">Current Streak</span>
-									<span className="text-red-400 font-semibold">{currentUser.currentStreak} days</span>
+								<div className="flex justify-between items-center py-2 border-b border-slate-700/30">
+									<span className="text-slate-400 font-medium">Current Streak</span>
+									<span className="text-red-400 font-bold text-lg">{currentUser.currentStreak} days</span>
 								</div>
-								<div className="flex justify-between">
-									<span className="text-gray-400">Daily Average</span>
-									<span className="text-white font-semibold">{currentUser.avgDaily}</span>
+								<div className="flex justify-between items-center py-2">
+									<span className="text-slate-400 font-medium">Daily Average</span>
+									<span className="text-white font-bold text-lg">{currentUser.avgDaily}</span>
 								</div>
 							</div>
 						</div>
+						
 						{/* Leaderboard Position */}
-						<div className="bg-[#232733] rounded-xl p-6 shadow-lg border border-[#232733]">
-							<h3 className="text-lg font-bold text-[#36D399] mb-4">Your Position</h3>
+						<div className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-xl rounded-2xl p-6 shadow-2xl border border-slate-700/50">
+							<h3 className="text-lg font-bold text-emerald-400 mb-6 flex items-center gap-2">
+								<Crown className="w-5 h-5" />
+								Your Position
+							</h3>
 							<div className="text-center">
-								<div className="text-3xl font-bold text-yellow-400 mb-1">#7</div>
-								<div className="text-sm text-gray-400 mb-3">Today's Leaderboard</div>
-								<div className="text-xs text-gray-500">You're ahead of 847 other scrollers</div>
+								<div className="text-4xl font-bold text-yellow-400 mb-2 drop-shadow-lg">#7</div>
+								<div className="text-sm text-slate-400 mb-4 font-medium">Today's Leaderboard</div>
+								<div className="text-xs text-slate-500 bg-slate-900/50 px-3 py-2 rounded-lg border border-slate-700/50">
+									You're ahead of 847 other scrollers
+								</div>
 							</div>
 						</div>
 					</div>
@@ -400,4 +462,3 @@ export default function Dashboard() {
 			</main>
 		</div>
 	);
-}
