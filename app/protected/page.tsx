@@ -229,7 +229,7 @@ export default function Dashboard() {
 								Based on your {currentUser.reelsToday} Reels today
 							</div>
 						</div>
-						
+
 						{/* Leaderboard Section */}
 						<div className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-xl rounded-2xl p-6 shadow-2xl border border-slate-700/50">
 							<div className="flex items-center justify-between mb-6">
@@ -264,7 +264,7 @@ export default function Dashboard() {
 									</button>
 								</div>
 							</div>
-							
+
 							<div className="space-y-3">
 								{currentLeaderboard.slice(0, 5).map((user, index) => (
 									<div 
@@ -278,7 +278,7 @@ export default function Dashboard() {
 										<div className="flex items-center justify-center w-8">
 											{getRankIcon(index + 1)}
 										</div>
-										
+
 										<div className="relative">
 											<div className="w-10 h-10 rounded-full bg-gradient-to-br from-slate-700 to-slate-800 flex items-center justify-center text-sm border-2 border-slate-600/50 shadow-lg">
 												{user.isCurrentUser ? '👤' : ['🎮', '🚀', '🎨', '⚡', '🌈'][index]}
@@ -287,7 +287,7 @@ export default function Dashboard() {
 												<div className={`absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full border-2 border-slate-900 shadow-sm ${getStatusColor(user.status)}`}></div>
 											)}
 										</div>
-										
+
 										<div className="flex-1">
 											<div className="flex items-center gap-2 mb-1">
 												<span className={`font-bold text-base ${user.isCurrentUser ? 'text-emerald-400' : 'text-white'}`}>

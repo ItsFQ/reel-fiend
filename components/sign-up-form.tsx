@@ -73,6 +73,18 @@ export function SignUpForm({
         },
       });
       if (error) throw error;
+
+      // Insert into mainData after successful sign up
+      const { error: insertError } = await supabase
+        .from("mainData")
+        .insert([{ username, email }]); // watchedReels will default to 0
+      if (insertError) {
+        setError(
+          "Account created, but failed to save stats: " + insertError.message
+        );
+        return;
+      }
+
       router.push("/auth/sign-up-success");
     } catch (error: unknown) {
       setError(error instanceof Error ? error.message : "An error occurred");
