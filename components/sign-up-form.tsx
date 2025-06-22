@@ -23,6 +23,7 @@ export function SignUpForm({
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
+  const [username, setUsername] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
@@ -39,12 +40,36 @@ export function SignUpForm({
       return;
     }
 
+    if (!username.trim()) {
+      setError("Username is required");
+      setIsLoading(false);
+      return;
+    }
+
+    // Check if username is unique
+    const { data: existingUsers, error: usernameError } = await supabase
+      .from("users") // or 'profiles' if you have a profiles table
+      .select("id")
+      .eq("username", username)
+      .limit(1);
+    if (usernameError) {
+      setError("Error checking username uniqueness");
+      setIsLoading(false);
+      return;
+    }
+    if (existingUsers && existingUsers.length > 0) {
+      setError("Username is already taken");
+      setIsLoading(false);
+      return;
+    }
+
     try {
       const { error } = await supabase.auth.signUp({
         email,
         password,
         options: {
           emailRedirectTo: `${window.location.origin}/protected`,
+          data: { username },
         },
       });
       if (error) throw error;
@@ -66,6 +91,17 @@ export function SignUpForm({
         <CardContent>
           <form onSubmit={handleSignUp}>
             <div className="flex flex-col gap-6">
+              <div className="grid gap-2">
+                <Label htmlFor="username">Username</Label>
+                <Input
+                  id="username"
+                  type="text"
+                  placeholder="your_username"
+                  required
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                />
+              </div>
               <div className="grid gap-2">
                 <Label htmlFor="email">Email</Label>
                 <Input

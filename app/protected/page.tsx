@@ -9,27 +9,30 @@ const supabase = createClient();
 export default function Dashboard() {
 	const router = useRouter();
 	const [currentUser, setCurrentUser] = useState({
-		username: '@scrollmaster2024',
-		rank: 'Delta',
-		aura: 42,
-		reelsToday: 23,
-		reelsWeek: 217,
-		reelsTotal: 1247,
-		joinDate: '2024-01-15',
-		bestStreak: 3,
+		username: '',
+		rank: 'Sigma',
+		aura: 100,
+		reelsToday: 0,
+		reelsWeek: 0,
+		reelsTotal: 0,
+		joinDate: '',
+		bestStreak: 0,
 		currentStreak: 0,
-		avgDaily: 31,
-		timeWasted: '127h 32m',
-		achievements: ['First Scroll', 'Century Club', 'Midnight Scroller']
+		avgDaily: 0,
+		timeWasted: '0h 0m',
+		achievements: []
 	});
-	const [todayProgress, setTodayProgress] = useState(0);
 
 	useEffect(() => {
-		const timer = setInterval(() => {
-			setTodayProgress(prev => Math.min(prev + 0.1, 100));
-		}, 100);
-		return () => clearInterval(timer);
-	}, []);
+		supabase.auth.getUser().then(async ({ data: { user } }) => {
+			if (!user) {
+				router.push("/auth/login");
+				return;
+			}
+			let username = user.user_metadata?.username || '';
+			setCurrentUser((prev) => ({ ...prev, username }));
+		});
+	}, [router]);
 
 	const getRankColor = (rank: string) => {
 		switch (rank) {
@@ -90,8 +93,14 @@ export default function Dashboard() {
 					</div>
 					<div className="flex items-center gap-4">
 						<div className="text-right">
-							<div className="text-lg font-bold text-white">{currentUser.username}</div>
-							<div className={`text-sm font-semibold ${getRankColor(currentUser.rank)}`}>Rank: {currentUser.rank}</div>
+							<div className="text-lg font-bold text-white">{currentUser ? currentUser.username : ''}</div>
+							<div className="text-sm font-semibold">
+								{currentUser && currentUser.rank ? (
+									<span className={getRankColor(currentUser.rank)}>Rank: {currentUser.rank}</span>
+								) : (
+									<span className="text-gray-400">Rank: -</span>
+								)}
+							</div>
 						</div>
 						<div className="w-10 h-10 rounded-full bg-[#232733] flex items-center justify-center">
 							<span className="text-lg">👤</span>
@@ -114,7 +123,7 @@ export default function Dashboard() {
 					</div>
 					<div className="bg-[#232733] rounded-xl p-6 shadow-lg border border-[#232733]">
 						<div className="flex items-center justify-between mb-2">
-							<span className="text-gray-400 text-sm">Today's Reels</span>
+							<span className="text-gray-400 text-sm">Today&apos;s Reels</span>
 							<span className="text-lg">🎯</span>
 						</div>
 						<div className="text-3xl font-bold text-white">{currentUser.reelsToday}</div>
@@ -147,10 +156,10 @@ export default function Dashboard() {
 						<div className="bg-[#232733] rounded-xl p-6 shadow-lg border border-[#232733]">
 							<div className="flex items-center gap-2 mb-4">
 								<span className="text-lg">🔥</span>
-								<h2 className="text-xl font-bold text-[#36D399]">Today's Personal Roast</h2>
+								<h2 className="text-xl font-bold text-[#36D399]">Today&apos;s Personal Roast</h2>
 							</div>
 							<div className="bg-[#1B2028] rounded-lg p-4 border border-[#232733]">
-								<p className="text-lg text-gray-200 italic">"{getRoastMessage(currentUser.reelsToday)}"</p>
+								<p className="text-lg text-gray-200 italic">&quot;{getRoastMessage(currentUser?.reelsToday || 0)}&quot;</p>
 							</div>
 							<div className="mt-4 text-sm text-gray-400">Based on your {currentUser.reelsToday} Reels today</div>
 						</div>
@@ -251,8 +260,8 @@ export default function Dashboard() {
 							<h3 className="text-lg font-bold text-[#36D399] mb-4">Your Position</h3>
 							<div className="text-center">
 								<div className="text-3xl font-bold text-yellow-400 mb-1">#7</div>
-								<div className="text-sm text-gray-400 mb-3">Today's Leaderboard</div>
-								<div className="text-xs text-gray-500">You're ahead of 847 other scrollers</div>
+								<div className="text-sm text-gray-400 mb-3">Today&apos;s Leaderboard</div>
+								<div className="text-xs text-gray-500">You&apos;re ahead of 847 other scrollers</div>
 							</div>
 						</div>
 					</div>
