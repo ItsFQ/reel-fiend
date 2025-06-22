@@ -23,7 +23,7 @@ export default function Navbar({ isGameOpen, setIsGameOpen }: { isGameOpen: bool
             href="/protected"
             className="px-6 py-2 rounded-full font-bold shadow border border-[#36D399] bg-[#36D399] text-[#181C23] hover:bg-transparent hover:text-[#36D399] transition-colors focus:outline-none focus:ring-2 focus:ring-[#36D399] focus:ring-offset-2"
           >
-            Enter Dashboard
+            Get Started
           </Link>
         </div>
       </div>

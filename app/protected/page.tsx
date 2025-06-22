@@ -61,9 +61,9 @@ export default function Dashboard() {
 			case 'Sigma': return 'text-purple-400';
 			case 'Alpha': return 'text-yellow-400';
 			case 'Beta': return 'text-[#36D399]';
-			case 'Gamma': return 'text-pink-400';
-			case 'Delta': return 'text-orange-400';
-			case 'Omega': return 'text-red-400';
+			case 'NPC': return 'text-pink-400';
+			case 'Lost Soul': return 'text-orange-400';
+			case 'Unemployed': return 'text-red-400';
 			default: return 'text-gray-400';
 		}
 	};
@@ -121,34 +121,35 @@ export default function Dashboard() {
 		<div className="bg-base-100 min-h-screen font-sans">
 			{/* Header */}
 			<header className="bg-[#1B2028] border-b border-[#232733] px-4 py-6">
-				<div className="max-w-6xl mx-auto flex items-center justify-between">
-					<div className="flex items-center gap-4">
-						<div className="w-12 h-12 rounded-full border-2 border-[#36D399] flex items-center justify-center bg-[#232733]">
-							<span className="text-2xl">🤳</span>
-						</div>
-						<div>
-							<h1 className="text-2xl font-bold text-[#36D399]">ReelFiend Dashboard</h1>
-							<p className="text-gray-400 text-sm">Your digital shame, quantified</p>
-						</div>
-					</div>
-					<div className="flex items-center gap-4">
-						<div className="text-right">
-							<div className="text-lg font-bold text-white">{currentUser ? currentUser.username : ''}</div>
-							<div className="text-sm font-semibold">
-								{currentUser && currentUser.rank ? (
-									<span className={getRankColor(currentUser.rank)}>Rank: {currentUser.rank}</span>
-								) : (
-									<span className="text-gray-400">Rank: -</span>
-								)}
-							</div>
-						</div>
-						<div className="w-10 h-10 rounded-full bg-[#232733] flex items-center justify-center">
-							<span className="text-lg">👤</span>
-						</div>
-						<button onClick={handleLogout} className="ml-4 px-4 py-2 rounded bg-red-600 text-white font-semibold hover:bg-red-700 transition">Logout</button>
-					</div>
-				</div>
-			</header>
+  <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+    {/* Left: Logo + Titles */}
+    <div className="flex flex-col items-center md:items-start text-center md:text-left gap-1">
+      <Link href="/" className="text-[#36D399] font-bold text-lg flex items-center gap-2">
+        <Image src="/images/logo.png" alt="Logo" width={30} height={30} className="rounded-full" />
+        ReelsFiend
+      </Link>
+      <h1 className="text-2xl font-bold text-[#36D399]">ReelFiend Dashboard</h1>
+      <p className="text-gray-400 text-sm">Your digital shame, quantified</p>
+    </div>
+
+    {/* Right: User Info + Logout */}
+    <div className="flex items-center gap-4">
+      <div className="text-right">
+        <div className="text-lg font-bold text-white">{currentUser.username}</div>
+        <div className={`text-sm font-semibold ${getRankColor(currentUser.rank)}`}>Rank: {currentUser.rank}</div>
+      </div>
+      <div className="w-10 h-10 rounded-full bg-[#232733] flex items-center justify-center">
+        <span className="text-lg">👤</span>
+      </div>
+      <button
+        onClick={handleLogout}
+        className="ml-4 px-4 py-2 rounded bg-red-600 text-white font-semibold hover:bg-red-700 transition"
+      >
+        Logout
+      </button>
+    </div>
+  </div>
+</header>
 
 			<main className="max-w-6xl mx-auto px-4 py-8">
 				{/* Stats Overview */}
