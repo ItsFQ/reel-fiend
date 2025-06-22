@@ -28,6 +28,23 @@ export default function Dashboard() {
 	});
 	const [todayProgress, setTodayProgress] = useState(0);
 
+	// Mock leaderboard data
+	const globalLeaderboard = [
+		{ id: 1, username: 'ScrollKing', rank: 'Alpha', aura: 95, reelsWeek: 420, country: '🇺🇸', isCurrentUser: false },
+		{ id: 2, username: 'ReelMaster', rank: 'Alpha', aura: 89, reelsWeek: 380, country: '🇬🇧', isCurrentUser: false },
+		{ id: 3, username: 'ThumbWarrior', rank: 'Beta', aura: 82, reelsWeek: 356, country: '🇨🇦', isCurrentUser: false },
+		{ id: 4, username: 'SwipeGod', rank: 'Beta', aura: 78, reelsWeek: 334, country: '🇦🇺', isCurrentUser: false },
+		{ id: 5, username: 'InfiniteScroll', rank: 'Beta', aura: 75, reelsWeek: 312, country: '🇩🇪', isCurrentUser: false }
+	];
+
+	const friendsLeaderboard = [
+		{ id: 1, username: 'BestFriend', rank: 'Alpha', aura: 87, reelsWeek: 298, status: 'online', isCurrentUser: false },
+		{ id: 2, username: currentUser.username || 'You', rank: currentUser.rank, aura: currentUser.aura, reelsWeek: currentUser.reelsWeek, status: 'online', isCurrentUser: true },
+		{ id: 3, username: 'College Buddy', rank: 'Beta', aura: 68, reelsWeek: 245, status: 'away', isCurrentUser: false },
+		{ id: 4, username: 'Work Friend', rank: 'Gamma', aura: 54, reelsWeek: 189, status: 'offline', isCurrentUser: false },
+		{ id: 5, username: 'Cousin Mike', rank: 'Delta', aura: 42, reelsWeek: 156, status: 'online', isCurrentUser: false }
+	];
+
 	useEffect(() => {
 		supabase.auth.getUser().then(async ({ data: { user } }) => {
 			if (!user) {
@@ -116,8 +133,14 @@ export default function Dashboard() {
 					</div>
 					<div className="flex items-center gap-4">
 						<div className="text-right">
-							<div className="text-lg font-bold text-white">{currentUser.username}</div>
-							<div className={`text-sm font-semibold ${getRankColor(currentUser.rank)}`}>Rank: {currentUser.rank}</div>
+							<div className="text-lg font-bold text-white">{currentUser ? currentUser.username : ''}</div>
+							<div className="text-sm font-semibold">
+								{currentUser && currentUser.rank ? (
+									<span className={getRankColor(currentUser.rank)}>Rank: {currentUser.rank}</span>
+								) : (
+									<span className="text-gray-400">Rank: -</span>
+								)}
+							</div>
 						</div>
 						<div className="w-10 h-10 rounded-full bg-[#232733] flex items-center justify-center">
 							<span className="text-lg">👤</span>
