@@ -9,7 +9,7 @@
   },
   "content_scripts": [
     {
-      "matches": ["https://www.instagram.com/*", "http://localhost:3000/*"],
+      "matches": ["https://www.instagram.com/reels/*"],
       "js": ["content.js"]
     }
   ],
@@ -22,7 +22,7 @@
   "web_accessible_resources": [
     {
       "resources": ["*.png", "*.jpg", "*.jpeg", "job-application-job.png"],
-      "matches": ["https://www.instagram.com/*", "http://localhost:3000/*"]
+      "matches": ["https://www.instagram.com/reels/*"]
     }
   ]
 }

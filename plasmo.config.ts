@@ -2,7 +2,7 @@ const { defineManifest } = require("plasmo")
 
 module.exports = defineManifest(() => ({
   manifest_version: 3,
-  name: "ReelsMaxer",
+  name: "Reel Fiend",
   version: "1.0",
   action: {
     default_popup: "popup.html"
