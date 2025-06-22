@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
+import { GoogleGenAI } from "@google/genai";
 import Image from 'next/image'
 import Link from 'next/link';
 import { Trophy, Medal, Crown, Users, Globe, TrendingUp, TrendingDown, Flame, Zap, Target, Calendar, Clock, Star, Download, Chrome, ArrowRight, CheckCircle } from 'lucide-react';
@@ -40,6 +41,35 @@ export default function Dashboard() {
 	});
 	const [globalLeaderboard, setGlobalLeaderboard] = useState<LeaderboardUser[]>([]);
 	const [friendsLeaderboard, setFriendsLeaderboard] = useState<LeaderboardUser[]>([]);
+	const [roastMessage, setRoastMessage] = useState("Loading your personalized roast...");
+	const [isLoadingRoast, setIsLoadingRoast] = useState(false);
+
+	const generateRoast = async (rank, reelsCount) => {
+		setIsLoadingRoast(true);
+		try {
+			const ai = new GoogleGenAI({ apiKey: process.env.NEXT_PUBLIC_GOOGLE_AI_API_KEY });
+
+const prompt = `Generate a funny, sarcastic roast for someone with the rank "${rank}" who has watched ${reelsCount} Instagram Reels. The rank system goes from best to worst: Sigma (0 reels) → Alpha (1-19) → Beta (20-49) → NPC (50-99) → Lost Soul (100-199) → Unemployed (200+). Lower ranks are worse, so roast accordingly. The roast should be witty and humorous but not mean-spirited. Keep it under 100 characters and include an emoji. Make it specific to their rank and reel count.`;
+			const response = await ai.models.generateContent({
+				model: "gemini-2.5-flash",
+				contents: prompt,
+			});
+			
+			setRoastMessage(response.text);
+		} catch (error) {
+			console.error('Error generating roast:', error);
+			setRoastMessage(getRoastMessage(reelsCount)); // Fallback to original function
+		} finally {
+			setIsLoadingRoast(false);
+		}
+	};
+
+	const getRoastMessage = (reels: number) => {
+		if (reels > 1000) return "Your phone is filing a restraining order. 📱⚖️";
+		if (reels > 500) return "You've seen more Reels than a film festival. 🎬";
+		if (reels > 100) return "Your thumb is applying for workers' comp. 👍💼";
+		return "Not bad... for a Beta. 🤨";
+	};
 
 	useEffect(() => {
 		supabase.auth.getUser().then(async ({ data: { user } }) => {
@@ -94,6 +124,13 @@ export default function Dashboard() {
 		});
 	}, [router]);
 
+	// Generate roast when user data loads
+	useEffect(() => {
+		if (currentUser.username && currentUser.reelsTotal >= 0) {
+			generateRoast(currentUser.rank, currentUser.reelsTotal);
+		}
+	}, [currentUser.username, currentUser.rank, currentUser.reelsTotal]);
+
 	const getRankColor = (rank: string) => {
 		switch (rank) {
 			case 'Sigma': return 'text-purple-400';
@@ -120,13 +157,6 @@ export default function Dashboard() {
 			case 'offline': return 'bg-gray-500';
 			default: return 'bg-gray-500';
 		}
-	};
-	
-	const getRoastMessage = (reels: number) => {
-		if (reels > 1000) return "Your phone is filing a restraining order. 📱⚖️";
-		if (reels > 500) return "You've seen more Reels than a film festival. 🎬";
-		if (reels > 100) return "Your thumb is applying for workers' comp. 👍💼";
-		return "Not bad... for a Beta. 🤨";
 	};
 
 	const handleLogout = async () => {
@@ -273,20 +303,29 @@ export default function Dashboard() {
 				<div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
 					{/* Main Content */}
 					<div className="lg:col-span-2 space-y-8">
-						{/* Today's Roast */}
+						{/* AI Personal Roast */}
 						<div className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-xl rounded-2xl p-6 shadow-2xl border border-slate-700/50 hover:border-orange-500/50 transition-all duration-300">
 							<div className="flex items-center gap-3 mb-6">
 								<div className="p-2 bg-orange-500/20 rounded-xl">
 									<Flame className="w-6 h-6 text-orange-400" />
 								</div>
-								<h2 className="text-2xl font-bold bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent">Personal Roast</h2>
+								<h2 className="text-2xl font-bold bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent">AI Personal Roast</h2>
 							</div>
 							<div className="bg-gradient-to-br from-slate-900/80 to-slate-800/80 rounded-xl p-6 border border-slate-700/50 shadow-inner">
-								<p className="text-lg text-slate-200 italic font-medium leading-relaxed">"{getRoastMessage(currentUser?.reelsTotal || 0)}"</p>
+								<div className="text-lg text-slate-200 italic font-medium leading-relaxed">
+	{isLoadingRoast ? (
+		<span className="flex items-center gap-2">
+			<div className="animate-spin w-4 h-4 border-2 border-orange-400 border-t-transparent rounded-full"></div>
+			Crafting your digital shame...
+		</span>
+	) : (
+		`"${roastMessage}"`
+	)}
+</div>
 							</div>
 							<div className="mt-4 text-sm text-slate-400 flex items-center gap-2">
 								<Target className="w-4 h-4" />
-								Based on your {currentUser.reelsTotal} total Reels watched
+								AI-generated roast based on your {currentUser.rank} rank and {currentUser.reelsTotal} total Reels
 							</div>
 						</div>
 

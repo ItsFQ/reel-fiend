@@ -291,9 +291,9 @@ export default function Home() {
               
               <div className="space-y-4">
                 {[
-                  { rank: 1, user: '@doomscroll_king', reels: 237, aura: 12, rankName: 'Beta', gradient: 'from-[#FFD700] to-[#FFA500]', emoji: '🔥' },
-                  { rank: 2, user: '@scrollinator', reels: 201, aura: 18, rankName: 'Gamma', gradient: 'from-[#C0C0C0] to-[#A0A0A0]', emoji: '😳' },
-                  { rank: 3, user: '@reel_addict', reels: 180, aura: 25, rankName: 'Delta', gradient: 'from-[#CD7F32] to-[#B8860B]', emoji: '🤦‍♂️' },
+                  { rank: 1, user: '@doomscroll_king', reels: 237,  rankName: 'Unemployed', gradient: 'from-[#FFD700] to-[#FFA500]', emoji: '🔥' },
+                  { rank: 2, user: '@scrollinator', reels: 201,  rankName: 'Unemployed', gradient: 'from-[#C0C0C0] to-[#A0A0A0]', emoji: '😳' },
+                  { rank: 3, user: '@reel_addict', reels: 180,  rankName: 'Lost Soul', gradient: 'from-[#CD7F32] to-[#B8860B]', emoji: '🤦‍♂️' },
                 ].map((entry) => (
                   <div key={entry.rank} className="group bg-gradient-to-r from-[#1A1A2E]/80 to-[#16213E]/80 backdrop-blur-sm rounded-2xl p-6 border border-[#00D4AA]/20 hover:border-[#00D4AA]/40 transition-all duration-300 hover:scale-[1.02]">
                     <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
@@ -312,10 +312,7 @@ export default function Home() {
                           <span className="text-gray-400">Rank:</span>
                           <span className="font-bold text-[#FF6B6B]">{entry.rankName}</span>
                         </div>
-                        <div className="flex items-center gap-2">
-                          <span className="text-gray-400">Aura:</span>
-                          <span className="font-bold text-[#FFE66D]">{entry.aura}</span>
-                        </div>
+                        
                       </div>
                     </div>
                   </div>
@@ -360,7 +357,7 @@ export default function Home() {
                     </li>
                   </ul>
                   <Link
-                    href="/signup"
+                    href="/protected"
                     className="w-full bg-gradient-to-r from-[#00D4AA] to-[#4ECDC4] text-[#0F0F23] font-bold rounded-full py-3 text-center block hover:scale-105 transition-transform duration-200"
                   >
                     Start Free
