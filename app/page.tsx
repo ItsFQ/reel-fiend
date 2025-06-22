@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import Navbar from "../components/navbar";
+import Image from 'next/image'
 
 export default function Home() {
   const [isGameOpen, setIsGameOpen] = useState(false);
@@ -88,13 +89,19 @@ export default function Home() {
             </div>
             <div className="flex flex-col items-center w-full relative z-10">
               <div className="mx-auto mb-4 flex items-center justify-center w-32 h-32">
-                <div className="w-32 h-32 rounded-full border-4 border-[#36D399] flex items-center justify-center bg-[#232733] shadow-lg">
-                  <span className="text-6xl">🤳</span>
-                </div>
+               <div className="w-32 h-32 rounded-full border-4 border-[#36D399] flex items-center justify-center bg-[#232733] shadow-lg">
+  <Image
+    src="/images/logo.png"
+    alt="Logo"
+    width={100}
+    height={100}
+    className="rounded-full"
+  />
+</div>
               </div>
               <div className="flex flex-col items-center gap-2 w-full">
                 <h1 className="text-5xl md:text-6xl font-extrabold mb-1 text-[#36D399] flex flex-col items-center w-full">
-                  ReelFiend
+                  ReelsFiend
                   <span className="text-base bg-[#232733] px-3 py-1 rounded-full border border-[#36D399] font-bold mt-2">Sigma Ranker</span>
                 </h1>
                 <div className="flex items-center gap-2 text-[#36D399] text-lg font-mono">

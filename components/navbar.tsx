@@ -7,8 +7,8 @@ export default function Navbar({ isGameOpen, setIsGameOpen }: { isGameOpen: bool
       <div className="w-full max-w-5xl flex justify-between items-center p-3 px-5 text-sm">
         <div className="flex gap-5 items-center font-semibold">
           <Link href="/" className="text-[#36D399] font-bold text-lg flex items-center gap-2 text-">
-            <Image src="/images/navbar-icon.png" alt="Navbar Icon" width={30} height={30} className="rounded-full" />
-            ReelFiend
+            <Image src="/images/logo.png" alt="Logo" width={30} height={30} className="rounded-full" />
+            ReelsFiend
           </Link>
         </div>
         <div className="flex items-center gap-4">

@@ -3,11 +3,15 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
+import Image from 'next/image'
+import Link from 'next/link';
+import { Trophy, Medal, Crown, Users, Globe } from 'lucide-react';
 
 const supabase = createClient();
 
 export default function Dashboard() {
 	const router = useRouter();
+	const [leaderboardTab, setLeaderboardTab] = useState('global');
 	const [currentUser, setCurrentUser] = useState({
 		username: '@scrollmaster2024',
 		rank: 'Delta',
@@ -23,6 +27,25 @@ export default function Dashboard() {
 		achievements: ['First Scroll', 'Century Club', 'Midnight Scroller']
 	});
 	const [todayProgress, setTodayProgress] = useState(0);
+
+	// Leaderboard data
+	const globalLeaderboard = [
+		{ id: 1, username: '@reelking2024', rank: 'Sigma', aura: 98, reelsToday: 156, reelsWeek: 892, country: '🇺🇸' },
+		{ id: 2, username: '@scrollqueen', rank: 'Sigma', aura: 95, reelsToday: 134, reelsWeek: 823, country: '🇬🇧' },
+		{ id: 3, username: '@digitalnomad', rank: 'Alpha', aura: 87, reelsToday: 98, reelsWeek: 678, country: '🇨🇦' },
+		{ id: 4, username: '@midnightscroller', rank: 'Alpha', aura: 83, reelsToday: 87, reelsWeek: 634, country: '🇦🇺' },
+		{ id: 5, username: '@reelmaster', rank: 'Alpha', aura: 79, reelsToday: 76, reelsWeek: 587, country: '🇩🇪' },
+		{ id: 6, username: '@scrollsage', rank: 'Beta', aura: 72, reelsWeek: 534, country: '🇫🇷' },
+		{ id: 7, username: '@scrollmaster2024', rank: 'Delta', aura: 42, reelsToday: 23, reelsWeek: 217, country: '🇺🇸', isCurrentUser: true }
+	];
+
+	const friendsLeaderboard = [
+		{ id: 1, username: '@bestfriend2024', rank: 'Beta', aura: 68, reelsToday: 45, reelsWeek: 298, status: 'online' },
+		{ id: 2, username: '@scrollmaster2024', rank: 'Delta', aura: 42, reelsToday: 23, reelsWeek: 217, isCurrentUser: true, status: 'online' },
+		{ id: 3, username: '@collegefriend', rank: 'Gamma', aura: 39, reelsToday: 18, reelsWeek: 156, status: 'away' },
+		{ id: 4, username: '@workbuddy', rank: 'Delta', aura: 35, reelsToday: 12, reelsWeek: 134, status: 'offline' },
+		{ id: 5, username: '@gymmate', rank: 'Delta', aura: 28, reelsToday: 8, reelsWeek: 98, status: 'online' }
+	];
 
 	useEffect(() => {
 		const timer = setInterval(() => {
@@ -51,6 +74,22 @@ export default function Dashboard() {
 		return 'text-red-400';
 	};
 
+	const getRankIcon = (rank: number) => {
+		if (rank === 1) return <Crown className="w-4 h-4 text-yellow-400" />;
+		if (rank === 2) return <Trophy className="w-4 h-4 text-gray-300" />;
+		if (rank === 3) return <Medal className="w-4 h-4 text-amber-600" />;
+		return <span className="w-4 h-4 flex items-center justify-center text-xs font-bold text-gray-400">#{rank}</span>;
+	};
+
+	const getStatusColor = (status: string) => {
+		switch (status) {
+			case 'online': return 'bg-green-500';
+			case 'away': return 'bg-yellow-500';
+			case 'offline': return 'bg-gray-500';
+			default: return 'bg-gray-500';
+		}
+	};
+
 	const getRoastMessage = (reels: number) => {
 		if (reels > 100) return "Your phone is filing a restraining order. 📱⚖️";
 		if (reels > 50) return "You've seen more Reels than a film festival. 🎬";
@@ -74,32 +113,41 @@ export default function Dashboard() {
 		}
 	};
 
+	const currentLeaderboard = leaderboardTab === 'global' ? globalLeaderboard : friendsLeaderboard;
+
 	return (
 		<div className="bg-base-100 min-h-screen font-sans">
 			{/* Header */}
 			<header className="bg-[#1B2028] border-b border-[#232733] px-4 py-6">
-				<div className="max-w-6xl mx-auto flex items-center justify-between">
-					<div className="flex items-center gap-4">
-						<div className="w-12 h-12 rounded-full border-2 border-[#36D399] flex items-center justify-center bg-[#232733]">
-							<span className="text-2xl">🤳</span>
-						</div>
-						<div>
-							<h1 className="text-2xl font-bold text-[#36D399]">ReelFiend Dashboard</h1>
-							<p className="text-gray-400 text-sm">Your digital shame, quantified</p>
-						</div>
-					</div>
-					<div className="flex items-center gap-4">
-						<div className="text-right">
-							<div className="text-lg font-bold text-white">{currentUser.username}</div>
-							<div className={`text-sm font-semibold ${getRankColor(currentUser.rank)}`}>Rank: {currentUser.rank}</div>
-						</div>
-						<div className="w-10 h-10 rounded-full bg-[#232733] flex items-center justify-center">
-							<span className="text-lg">👤</span>
-						</div>
-						<button onClick={handleLogout} className="ml-4 px-4 py-2 rounded bg-red-600 text-white font-semibold hover:bg-red-700 transition">Logout</button>
-					</div>
-				</div>
-			</header>
+  <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+    {/* Left: Logo + Titles */}
+    <div className="flex flex-col items-center md:items-start text-center md:text-left gap-1">
+      <Link href="/" className="text-[#36D399] font-bold text-lg flex items-center gap-2">
+        <Image src="/images/logo.png" alt="Logo" width={30} height={30} className="rounded-full" />
+        ReelsFiend
+      </Link>
+      <h1 className="text-2xl font-bold text-[#36D399]">ReelFiend Dashboard</h1>
+      <p className="text-gray-400 text-sm">Your digital shame, quantified</p>
+    </div>
+
+    {/* Right: User Info + Logout */}
+    <div className="flex items-center gap-4">
+      <div className="text-right">
+        <div className="text-lg font-bold text-white">{currentUser.username}</div>
+        <div className={`text-sm font-semibold ${getRankColor(currentUser.rank)}`}>Rank: {currentUser.rank}</div>
+      </div>
+      <div className="w-10 h-10 rounded-full bg-[#232733] flex items-center justify-center">
+        <span className="text-lg">👤</span>
+      </div>
+      <button
+        onClick={handleLogout}
+        className="ml-4 px-4 py-2 rounded bg-red-600 text-white font-semibold hover:bg-red-700 transition"
+      >
+        Logout
+      </button>
+    </div>
+  </div>
+</header>
 
 			<main className="max-w-6xl mx-auto px-4 py-8">
 				{/* Stats Overview */}
@@ -154,6 +202,96 @@ export default function Dashboard() {
 							</div>
 							<div className="mt-4 text-sm text-gray-400">Based on your {currentUser.reelsToday} Reels today</div>
 						</div>
+						
+						{/* Leaderboard Section */}
+						<div className="bg-[#232733] rounded-xl p-6 shadow-lg border border-[#232733]">
+							<div className="flex items-center justify-between mb-4">
+								<div className="flex items-center gap-2">
+									<span className="text-lg">🏆</span>
+									<h2 className="text-xl font-bold text-[#36D399]">Leaderboard</h2>
+								</div>
+								<div className="bg-[#1B2028] rounded-lg p-1 flex gap-1">
+									<button
+										onClick={() => setLeaderboardTab('global')}
+										className={`flex items-center gap-1 px-3 py-2 rounded text-sm font-semibold transition-all ${
+											leaderboardTab === 'global' 
+												? 'bg-[#36D399] text-black' 
+												: 'text-gray-400 hover:text-white'
+										}`}
+									>
+										<Globe className="w-4 h-4" />
+										Global
+									</button>
+									<button
+										onClick={() => setLeaderboardTab('friends')}
+										className={`flex items-center gap-1 px-3 py-2 rounded text-sm font-semibold transition-all ${
+											leaderboardTab === 'friends' 
+												? 'bg-[#36D399] text-black' 
+												: 'text-gray-400 hover:text-white'
+										}`}
+									>
+										<Users className="w-4 h-4" />
+										Friends
+									</button>
+								</div>
+							</div>
+							
+							<div className="space-y-3">
+								{currentLeaderboard.slice(0, 5).map((user, index) => (
+									<div 
+										key={user.id} 
+										className={`flex items-center gap-3 p-3 rounded-lg border transition-colors ${
+											user.isCurrentUser 
+												? 'bg-[#1B2028] border-[#36D399]' 
+												: 'bg-[#1B2028] border-[#1B2028] hover:border-[#232733]'
+										}`}
+									>
+										<div className="flex items-center justify-center w-6">
+											{getRankIcon(index + 1)}
+										</div>
+										
+										<div className="relative">
+											<div className="w-8 h-8 rounded-full bg-[#232733] flex items-center justify-center text-sm">
+												{user.isCurrentUser ? '👤' : ['🎮', '🚀', '🎨', '⚡', '🌈'][index]}
+											</div>
+											{leaderboardTab === 'friends' && user.status && (
+												<div className={`absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full border border-[#1B2028] ${getStatusColor(user.status)}`}></div>
+											)}
+										</div>
+										
+										<div className="flex-1">
+											<div className="flex items-center gap-2">
+												<span className={`font-semibold text-sm ${user.isCurrentUser ? 'text-[#36D399]' : 'text-white'}`}>
+													{user.username}
+												</span>
+												{user.isCurrentUser && <span className="text-xs bg-[#36D399] text-black px-1.5 py-0.5 rounded">You</span>}
+												{leaderboardTab === 'global' && user.country && <span className="text-xs">{user.country}</span>}
+											</div>
+											<div className={`text-xs ${getRankColor(user.rank)}`}>{user.rank}</div>
+										</div>
+										
+										<div className="flex gap-4 text-right">
+											<div>
+												<div className={`text-sm font-bold ${getAuraColor(user.aura)}`}>{user.aura}</div>
+												<div className="text-xs text-gray-400">Aura</div>
+											</div>
+											<div>
+												<div className="text-sm font-bold text-white">{user.reelsWeek}</div>
+												<div className="text-xs text-gray-400">Week</div>
+											</div>
+										</div>
+									</div>
+								))}
+							</div>
+							
+							<div className="mt-4 text-center">
+								<div className="text-sm text-gray-400">
+									Your position: <span className="text-[#36D399] font-semibold">#{leaderboardTab === 'global' ? '7' : '2'}</span>
+									{leaderboardTab === 'global' && <span className="text-gray-500"> out of 10,247 users</span>}
+								</div>
+							</div>
+						</div>
+
 						{/* Progress Chart */}
 						<div className="bg-[#232733] rounded-xl p-6 shadow-lg border border-[#232733]">
 							<h2 className="text-xl font-bold text-[#36D399] mb-4">Weekly Progress</h2>
@@ -251,8 +389,15 @@ export default function Dashboard() {
 							<h3 className="text-lg font-bold text-[#36D399] mb-4">Your Position</h3>
 							<div className="text-center">
 								<div className="text-3xl font-bold text-yellow-400 mb-1">#7</div>
-								<div className="text-sm text-gray-400 mb-3">Today's Leaderboard</div>
-								<div className="text-xs text-gray-500">You're ahead of 847 other scrollers</div>
+								<div className="text-sm text-gray-400 mb-3">Global Leaderboard</div>
+								<div className="text-xs text-gray-500">You're ahead of 10,240 other scrollers</div>
+							</div>
+							<div className="mt-4 pt-4 border-t border-[#1B2028]">
+								<div className="text-center">
+									<div className="text-2xl font-bold text-[#36D399] mb-1">#2</div>
+									<div className="text-sm text-gray-400 mb-3">Among Friends</div>
+									<div className="text-xs text-gray-500">Competing with 5 friends</div>
+								</div>
 							</div>
 						</div>
 					</div>
