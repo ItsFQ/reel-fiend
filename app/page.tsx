@@ -127,20 +127,120 @@ export default function Home() {
                 <span className="block mt-2 text-[#FF6B6B] font-semibold">Can you resist the endless scroll?</span>
               </p>
 
-              {/* CTA Button */}
-              <Link
-                href="/protected"
-                className="group relative inline-flex items-center justify-center px-12 py-4 text-lg font-bold text-[#0F0F23] bg-gradient-to-r from-[#00D4AA] to-[#4ECDC4] rounded-full overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-[#00D4AA]/25"
-              >
-                <span className="absolute inset-0 bg-gradient-to-r from-[#4ECDC4] to-[#00D4AA] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
-                <span className="relative flex items-center gap-2">
-                  Enter Dashboard
-                  <span className="group-hover:translate-x-1 transition-transform">→</span>
-                </span>
-              </Link>
+              {/* CTA Buttons */}
+              <div className="flex flex-col sm:flex-row gap-4 mb-6">
+                <Link
+                  href="/protected"
+                  className="group relative inline-flex items-center justify-center px-12 py-4 text-lg font-bold text-[#0F0F23] bg-gradient-to-r from-[#00D4AA] to-[#4ECDC4] rounded-full overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-[#00D4AA]/25"
+                >
+                  <span className="absolute inset-0 bg-gradient-to-r from-[#4ECDC4] to-[#00D4AA] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                  <span className="relative flex items-center gap-2">
+                    Enter Dashboard
+                    <span className="group-hover:translate-x-1 transition-transform">→</span>
+                  </span>
+                </Link>
+
+                <a
+                  href="https://google.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group relative inline-flex items-center justify-center px-12 py-4 text-lg font-bold text-white bg-gradient-to-r from-[#9253ff] to-[#43047a] rounded-full overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-[#FF6B6B]/25"
+                >
+                  <span className="absolute inset-0 bg-gradient-to-r from-[#9253ff] to-[#43047a] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                  <span className="relative flex items-center gap-2">
+                    🧩 Get Chrome Extension
+                    <span className="group-hover:translate-x-1 transition-transform">↗</span>
+                  </span>
+                </a>
+              </div>
 
               <div className="mt-6 text-sm opacity-60 text-gray-400">
                 No judgment. Just brutal honesty. 💀
+              </div>
+            </div>
+          </section>
+
+          {/* CHROME EXTENSION SECTION */}
+          <section className="py-24 px-4 bg-gradient-to-b from-transparent to-[#0F0F23]/30">
+            <div className="max-w-6xl mx-auto">
+              <div className="text-center mb-16">
+                <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-[#9253ff] to-[#43047a] bg-clip-text text-transparent flex items-center justify-center gap-3">
+                  🧩 Chrome Extension
+                </h2>
+                <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+                  Automatic tracking that follows you everywhere. No manual logging, just pure reality.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                {/* Left side - Features */}
+                <div className="space-y-8">
+                  <div className="space-y-6">
+                    {[
+                      { 
+                        icon: "🔄", 
+                        title: "Auto-Sync", 
+                        desc: "Seamlessly tracks your Instagram Reels without lifting a finger" 
+                      },
+                      { 
+                        icon: "⚡", 
+                        title: "Real-Time Updates", 
+                        desc: "Watch your aura drop in real-time as you scroll through endless content" 
+                      },
+                     
+                    ].map((feature, index) => (
+                      <div key={index} className="group flex items-start gap-4 p-4 rounded-xl bg-gradient-to-r from-[#1A1A2E]/50 to-transparent hover:from-[#1A1A2E]/80 transition-all duration-300">
+                        <div className="text-3xl group-hover:scale-110 transition-transform duration-300">
+                          {feature.icon}
+                        </div>
+                        <div>
+                          <h3 className="text-xl font-bold text-[#592fc1] mb-2 group-hover:text-[#29246f] transition-colors">
+                            {feature.title}
+                          </h3>
+                          <p className="text-gray-400 leading-relaxed">
+                            {feature.desc}
+                          </p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Right side - CTA and Visual */}
+                <div className="text-center space-y-8">
+                  <div className="relative">
+                    <div className="w-64 h-64 mx-auto bg-gradient-to-br from-[#FF6B6B]/20 to-[#FF8E53]/20 rounded-3xl border-2 border-[#FF6B6B]/30 flex items-center justify-center backdrop-blur-sm">
+                      <div className="text-8xl animate-pulse">🧩</div>
+                    </div>
+                    <div className="absolute -inset-4 bg-gradient-to-r from-[#9253ff] to-[#43047a] rounded-3xl blur opacity-20"></div>
+                  </div>
+
+                  <div className="space-y-4">
+                    <h3 className="text-2xl font-bold text-white">
+                      Install Once, Track Forever
+                    </h3>
+                    <p className="text-gray-400 max-w-sm mx-auto">
+                      No more manual counting. Let the extension do the shameful work for you.
+                    </p>
+                  </div>
+
+                  <a
+                    href="https://google.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white bg-gradient-to-r from-[#9253ff] to-[#43047a] rounded-full overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-[#FF6B6B]/25"
+                  >
+                    <span className="absolute inset-0 bg-gradient-to-r from-[#9253ff] to-[#43047a] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                    <span className="relative flex items-center gap-2">
+                      Add to Chrome
+                      <span className="group-hover:translate-x-1 transition-transform">↗</span>
+                    </span>
+                  </a>
+
+                  <div className="text-sm text-gray-500">
+                    Free • Works with Chrome & Edge
+                  </div>
+                </div>
               </div>
             </div>
           </section>
@@ -331,7 +431,6 @@ export default function Home() {
               </div>
             </div>
           </section>
-
           {/* CTA SECTION */}
           <section className="py-24 px-4 bg-gradient-to-br from-[#0F0F23] to-[#1A1A2E]">
             <div className="max-w-4xl mx-auto text-center">
@@ -385,31 +484,3 @@ export default function Home() {
     </div>
   );
 }
-
-// Add these custom animations to your globals.css or tailwind config
-/*
-@keyframes float-slow {
-  0%, 100% { transform: translateY(0px) rotate(0deg); }
-  50% { transform: translateY(-20px) rotate(5deg); }
-}
-
-@keyframes float-medium {
-  0%, 100% { transform: translateY(0px) rotate(0deg); }
-  50% { transform: translateY(-15px) rotate(-3deg); }
-}
-
-@keyframes float-fast {
-  0%, 100% { transform: translateY(0px) rotate(0deg); }
-  50% { transform: translateY(-10px) rotate(2deg); }
-}
-
-@keyframes gradient-x {
-  0%, 100% { background-size: 200% 200%; background-position: left center; }
-  50% { background-size: 200% 200%; background-position: right center; }
-}
-
-.animate-float-slow { animation: float-slow 6s ease-in-out infinite; }
-.animate-float-medium { animation: float-medium 4s ease-in-out infinite; }
-.animate-float-fast { animation: float-fast 3s ease-in-out infinite; }
-.animate-gradient-x { animation: gradient-x 3s ease infinite; }
-*/
