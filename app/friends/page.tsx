@@ -25,7 +25,7 @@ export default function FriendsPage() {
     aura: 100
   });
 
-  const getRankColor = (rank) => {
+  const getRankColor = (rank: string) => {
     switch (rank) {
       case 'Sigma': return 'text-purple-400';
       case 'Alpha': return 'text-yellow-400';
