@@ -286,7 +286,7 @@ export default function Home() {
                 🏆 Hall of Shame
               </h2>
               <p className="text-xl text-gray-400 mb-12">
-                The brave souls who aren&apos;t afraid to show their scroll stats
+                The brave souls who aren&#39; afraid to show their scroll stats
               </p>
               
               <div className="space-y-4">
