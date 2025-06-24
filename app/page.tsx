@@ -286,7 +286,7 @@ export default function Home() {
                 🏆 Hall of Shame
               </h2>
               <p className="text-xl text-gray-400 mb-12">
-                The brave souls who aren't afraid to show their scroll stats
+                The brave souls who aren&apos;t afraid to show their scroll stats
               </p>
               
               <div className="space-y-4">
@@ -436,7 +436,7 @@ export default function Home() {
               </h2>
               <p className="text-xl text-gray-300 mb-12 max-w-2xl mx-auto leading-relaxed">
                 Join thousands of brave souls tracking their digital shame. 
-                Start your journey from Sigma to... well, let's see how far you'll fall.
+                Start your journey from Sigma to... well, let&apos;s see how far you&apos;ll fall.
               </p>
               
               <div className="flex flex-col sm:flex-row gap-6 justify-center">

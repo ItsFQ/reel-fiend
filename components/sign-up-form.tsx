@@ -47,12 +47,12 @@ export function SignUpForm({
     }
 
     try {
-      const { error, data } = await supabase.auth.signUp({
+      const { error } = await supabase.auth.signUp({
         email,
         password,
         options: {
           emailRedirectTo: `${window.location.origin}/protected`,
-          data: { username },
+          // data: { username },
         },
       });
       if (error) throw error;
